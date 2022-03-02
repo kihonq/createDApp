@@ -1,5 +1,11 @@
 # @usedapp/core
 
+## 0.11.1
+
+### Patch Changes
+
+- 42e1adc: 🔧 Add typed contract calls
+
 ## 0.11.0
 
 ### Minor Changes

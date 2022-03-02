@@ -1,5 +1,13 @@
 # @usedapp/example
 
+## 0.4.2
+
+### Patch Changes
+
+- 42e1adc: 🔧 Add typed contract calls
+- Updated dependencies [42e1adc]
+  - @usedapp/core@0.11.1
+
 ## 0.4.1
 
 ### Patch Changes
