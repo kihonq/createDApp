@@ -1,4 +1,6 @@
+import { For } from 'solid-js'
 import { styled } from 'solid-styled-components'
+
 import { Colors } from '../../../../design'
 import { Call, GeneralizedCall } from './Call'
 
@@ -10,11 +12,13 @@ interface Props {
 export function CallList({ calls, network }: Props) {
   return (
     <List>
-      {calls.map((call, i) => (
-        <Item key={i}>
-          <Call call={call} network={network} />
-        </Item>
-      ))}
+      <For each={calls}>
+        {(call) => (
+          <Item>
+            <Call call={call} network={network} />
+          </Item>
+        )}
+      </For>
     </List>
   )
 }

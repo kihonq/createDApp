@@ -1,9 +1,9 @@
-import type { ReactNode } from 'solid-js'
+import type { JSXElement } from 'solid-js'
 import { styled } from 'solid-styled-components'
 
 interface TableProps {
   className?: string
-  children: ReactNode
+  children: JSXElement
 }
 
 export function Table({ className, children }: TableProps) {

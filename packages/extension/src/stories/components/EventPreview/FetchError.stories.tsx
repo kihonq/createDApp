@@ -1,4 +1,5 @@
-import type { Meta, Story } from '@storybook/react'
+import type { Story, Meta } from '@storybook/html'
+import type { StoryFnHtmlReturnType } from '@storybook/html/dist/ts3.9/client/preview/types'
 import { Interface } from '@ethersproject/abi'
 
 import { GlobalStyle } from '../../../providers/GlobalStyle'
@@ -31,7 +32,8 @@ export const FetchError: Story = () => (
       }}
     />
   </AbiProvider>
-)
+) as StoryFnHtmlReturnType
+
 FetchError.parameters = {
   controls: { hideNoControlsWarning: true },
 }

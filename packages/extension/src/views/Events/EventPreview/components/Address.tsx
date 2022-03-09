@@ -1,6 +1,7 @@
 import { styled } from 'solid-styled-components'
-import { Colors, Font } from '../../../../design'
 import { getAddress } from '@ethersproject/address'
+
+import { Colors, Font } from '../../../../design'
 import { useNameTag } from '../../../../hooks'
 
 interface Props {

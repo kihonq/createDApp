@@ -1,6 +1,9 @@
+import { For } from 'solid-js'
 import { styled } from 'solid-styled-components'
+
 import { Colors, Font } from '../../../../design'
 import type { ParsedValue } from '../../../../providers/abi/ParsedValue'
+
 import { ValueItem } from './ValueItem'
 
 interface Props {
@@ -11,12 +14,14 @@ interface Props {
 export function ValueList({ values, network }: Props) {
   return (
     <List>
-      {values.map((v, i) => (
-        <Item data-type={v.type} key={i}>
-          <Key>{v.name}:&nbsp;</Key>
-          <ValueItem value={v} network={network} />
-        </Item>
-      ))}
+      <For each={values}>
+        {(v) => (
+          <Item data-type={v.type}>
+            <Key>{v.name}:&nbsp;</Key>
+            <ValueItem value={v} network={network} />
+          </Item>
+        )}
+      </For>
     </List>
   )
 }

@@ -1,5 +1,7 @@
 import { styled } from 'solid-styled-components'
+
 import type { ParsedValue } from '../../../../providers/abi/ParsedValue'
+
 import { Address } from './Address'
 import { Table } from './Table'
 import { Property } from './Property'

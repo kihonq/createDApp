@@ -1,4 +1,5 @@
-import type { Meta, Story } from '@storybook/react'
+import type { Story, Meta } from '@storybook/html'
+import type { StoryFnHtmlReturnType } from '@storybook/html/dist/ts3.9/client/preview/types'
 
 import { GlobalStyle } from '../../../providers/GlobalStyle'
 import { ErrorPreview } from '../../../views/Events/EventPreview/ErrorPreview'
@@ -19,7 +20,8 @@ export const Error: Story = () => (
       }}
     />
   </AbiProvider>
-)
+) as StoryFnHtmlReturnType
+
 Error.parameters = {
   controls: { hideNoControlsWarning: true },
 }

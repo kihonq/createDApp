@@ -1,7 +1,10 @@
 import { styled } from 'solid-styled-components'
+
 import { Colors, Font } from '../../../../design'
 import type { ParsedValue } from '../../../../providers/abi/ParsedValue'
+
 import { formatInteger } from '../../EventItem/formatInteger'
+
 import { Address } from './Address'
 import { Bytes } from './Bytes'
 import { Tuple } from './Tuple'

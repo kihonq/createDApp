@@ -1,4 +1,6 @@
+import { For } from 'solid-js'
 import { styled } from 'solid-styled-components'
+
 import { Font } from '../../../../design'
 
 interface Props {
@@ -12,13 +14,13 @@ export function Bytes({ value }: Props) {
   const split = splitIntoSegments(value).map(splitIntoBytes)
   return (
     <Block>
-      {split.map((segment, i) => (
-        <Segment key={i}>
-          {segment.map((byte, i) => (
-            <Byte key={i}>{byte}</Byte>
-          ))}
-        </Segment>
-      ))}
+      <For each={split}>
+        {(segment) => (
+          <Segment>
+            <For each={segment}>{(byte) => <Byte>{byte}</Byte>}</For>
+          </Segment>
+        )}
+      </For>
     </Block>
   )
 }

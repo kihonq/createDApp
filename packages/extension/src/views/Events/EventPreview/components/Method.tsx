@@ -1,4 +1,5 @@
 import { styled } from 'solid-styled-components'
+
 import { Font } from '../../../../design'
 import type { ParsedValue } from '../../../../providers/abi/ParsedValue'
 import { ValueList } from './ValueList'
