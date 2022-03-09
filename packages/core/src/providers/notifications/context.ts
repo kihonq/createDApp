@@ -1,4 +1,5 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext } from 'solid-js'
+
 import { Notifications, DEFAULT_NOTIFICATIONS, AddNotificationPayload, RemoveNotificationPayload } from './model'
 
 export const NotificationsContext = createContext<{

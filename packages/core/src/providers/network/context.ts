@@ -1,8 +1,10 @@
-import { createContext, useContext } from 'react'
-import { ChainId } from '../../constants'
-import { Network } from './model'
-import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+import { createContext, useContext } from 'solid-js'
 import { EventEmitter } from 'events'
+import { ExternalProvider, JsonRpcProvider } from '@ethersproject/providers'
+
+import { ChainId } from '../../constants'
+
+import { Network } from './model'
 
 export const NetworkContext = createContext<{
   update: (network: Partial<Network>) => void
@@ -23,6 +25,4 @@ export const NetworkContext = createContext<{
   deactivate: () => undefined,
 })
 
-export function useNetwork() {
-  return useContext(NetworkContext)
-}
+export const useNetwork = () => useContext(NetworkContext)

@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "strict": true,
-    "jsx": "react-jsx",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "target": "ESNext",
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "strictNullChecks": true,
   }
 }

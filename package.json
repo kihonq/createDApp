@@ -1,9 +1,9 @@
 {
-  "name": "usedapp",
+  "name": "createdapp",
   "private": true,
   "engines": {
     "node": ">=10",
-    "yarn": "^1.17.3"
+    "pnpm": ">=3"
   },
   "workspaces": {
     "packages": [
@@ -15,11 +15,11 @@
     "lint:fix": "wsrun -c -s lint:fix",
     "build": "wsrun -e -c -s build",
     "test": "wsrun -e -c -s --exclude-missing test",
-    "release": "yarn build && yarn changeset publish"
+    "release": "pnpm build && pnpm changeset publish"
   },
   "dependencies": {
     "@changesets/cli": "^2.14.1",
-    "ethers": "5.5.1",
+    "ethers": "5.5.4",
     "prettier": "2.1.2",
     "wsrun": "^5.2.1"
   },

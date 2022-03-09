@@ -1,4 +1,5 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext } from 'solid-js'
+
 import { Action } from './callsReducer'
 import { ChainState } from './model'
 

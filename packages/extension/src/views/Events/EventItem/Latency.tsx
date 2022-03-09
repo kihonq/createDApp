@@ -1,17 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
+
 import { Colors } from '../../../design'
 import type { Event } from '../../../providers/events/State'
+
 import { formatInteger } from './formatInteger'
 
 interface Props {
   event: Event
 }
 
-export function Latency({ event }: Props) {
+export const Latency = ({ event }: Props) => {
   if (event.type === 'STATE_UPDATED' || event.type === 'FETCH_ERROR') {
     return <Element>({formatInteger(event.duration)}ms)</Element>
   }
+
   return null
 }
 

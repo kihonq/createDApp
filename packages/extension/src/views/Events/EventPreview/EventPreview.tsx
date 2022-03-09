@@ -1,7 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
+
 import { Colors } from '../../../design'
 import type { Event } from '../../../providers/events/State'
+
 import { InitializedPreview } from './InitializedPreview'
 import { NetworkConnectedPreview } from './NetworkConnectedPreview'
 import { NetworkDisconnectedPreview } from './NetworkDisconnectedPreview'
@@ -17,7 +18,7 @@ interface Props {
   event?: Event
 }
 
-export function EventPreview({ event }: Props) {
+export const EventPreview = ({ event }: Props) => {
   if (!event) {
     return <Center>Select an event from the list to get started.</Center>
   }

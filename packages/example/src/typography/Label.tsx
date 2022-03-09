@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
 
 export const Label = styled.span`
   font-size: 14px;

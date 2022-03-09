@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'solid-js'
+import { styled } from 'solid-styled-components'
 import { AccountButton } from '../components/account/AccountButton'
 import { Container, MainContent, Section, SectionRow } from '../components/base/base'
 import { DepositEth, WithdrawEth } from '../components/Transactions/Forms'

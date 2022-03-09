@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import { createEffect, createSignal } from 'solid-js'
+import { styled } from 'solid-styled-components'
 import { formatEther } from '@ethersproject/units'
-import { BigNumber } from 'ethers'
-import { ContentBlock } from '../base/base'
+import { BigNumber, utils } from 'ethers'
+import { useEtherBalance, useEthers } from '@createdapp/core'
+import { useSendTransaction } from '@createdapp/core'
+
 import { TextBold } from '../../typography/Text'
 import { Colors, BorderRad, Transitions } from '../../global/styles'
-import styled from 'styled-components'
-import { useEtherBalance, useEthers } from '@usedapp/core'
+
+import { ContentBlock } from '../base/base'
 import { Button } from '../base/Button'
-import { useSendTransaction } from '@usedapp/core'
-import { utils } from 'ethers'
 import { StatusAnimation } from '../Transactions/TransactionForm'
 
 const formatter = new Intl.NumberFormat('en-us', {
@@ -22,24 +23,24 @@ const formatBalance = (balance: BigNumber | undefined) =>
 const InputComponent = () => {
   const { account } = useEthers()
 
-  const [amount, setAmount] = useState('0')
-  const [address, setAddress] = useState('')
-  const [disabled, setDisabled] = useState(false)
+  const [amount, setAmount] = createSignal('0')
+  const [address, setAddress] = createSignal('')
+  const [disabled, setDisabled] = createSignal(false)
 
   const { sendTransaction, state } = useSendTransaction({ transactionName: 'Send Ethereum' })
 
   const handleClick = () => {
     setDisabled(true)
-    sendTransaction({ to: address, value: utils.parseEther(amount) })
+    sendTransaction({ to: address(), value: utils.parseEther(amount()) })
   }
 
-  useEffect(() => {
-    if (state.status != 'Mining') {
+  createEffect(() => {
+    if (state().status != 'Mining') {
       setDisabled(false)
       setAmount('0')
       setAddress('')
     }
-  }, [state])
+  })
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -48,24 +49,24 @@ const InputComponent = () => {
           id={`EthInput`}
           type="number"
           step="0.01"
-          value={amount}
+          value={amount()}
           onChange={(e) => setAmount(e.currentTarget.value)}
           min="0"
-          disabled={disabled}
+          disabled={disabled()}
         />
         <FormTicker>ETH to:</FormTicker>
         <AddressInput
           id={`AddressInput`}
           type="text"
-          value={address}
+          value={address()}
           onChange={(e) => setAddress(e.currentTarget.value)}
-          disabled={disabled}
+          disabled={disabled()}
         />
-        <SmallButton disabled={!account || disabled} onClick={handleClick}>
+        <SmallButton disabled={!account || disabled()} onClick={handleClick}>
           Send
         </SmallButton>
       </InputRow>
-      <StatusAnimation transaction={state} />
+      <StatusAnimation transaction={state()} />
     </div>
   )
 }

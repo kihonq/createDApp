@@ -1,13 +1,14 @@
-import React from 'react'
 import type { CallsUpdatedEvent } from '../../../providers/events/State'
+
 import { Text, Title } from '../../shared'
+
 import { CallList } from './components/CallList'
 
 interface Props {
   event: CallsUpdatedEvent
 }
 
-export function CallsUpdatedPreview({ event }: Props) {
+export const CallsUpdatedPreview = ({ event }: Props) => {
   return (
     <>
       <Text>The application has requested different state to be fetched.</Text>

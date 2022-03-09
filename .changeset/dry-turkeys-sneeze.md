@@ -1,6 +1,6 @@
 ---
-"@usedapp/core": patch
-"@usedapp/example": patch
+"@createdapp/core": patch
+"@createdapp/example": patch
 ---
 
 🔧 Add typed contract calls

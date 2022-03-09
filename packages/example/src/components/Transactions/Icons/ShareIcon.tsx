@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'solid-js'
 
 export const ShareIcon = () => (
   <svg viewBox="0 0 10 11" fill="none" color="currentColor">

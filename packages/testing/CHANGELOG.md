@@ -1,4 +1,4 @@
-# @usedapp/testing
+# @createdapp/testing
 
 ## 0.4.0
 
@@ -10,7 +10,7 @@
 
 - Updated dependencies [c70a76e]
 - Updated dependencies [fd8e924]
-  - @usedapp/core@0.10.0
+  - @createdapp/core@0.10.0
 
 ## 0.3.0
 
@@ -24,7 +24,7 @@
 - Updated dependencies [1c257ce]
 - Updated dependencies [ece010c]
 - Updated dependencies [e5f0951]
-  - @usedapp/core@0.8.0
+  - @createdapp/core@0.8.0
 
 ## 0.2.12
 
@@ -33,7 +33,7 @@
 - b0114b5: Bump ethers version
 - Updated dependencies [b0114b5]
 - Updated dependencies [e7175e7]
-  - @usedapp/core@0.5.6
+  - @createdapp/core@0.5.6
 
 ## 0.2.11
 
@@ -41,7 +41,7 @@
 
 - 4c68ebb: Introduce contract events
 - Updated dependencies [4c68ebb]
-  - @usedapp/core@0.4.4
+  - @createdapp/core@0.4.4
 
 ## 0.2.10
 
@@ -52,7 +52,7 @@
 - Updated dependencies [366e705]
 - Updated dependencies [779efc9]
 - Updated dependencies [59592f3]
-  - @usedapp/core@0.4.2
+  - @createdapp/core@0.4.2
 
 ## 0.2.9
 
@@ -63,7 +63,7 @@
 - Updated dependencies [cdb02b9]
 - Updated dependencies [940d064]
 - Updated dependencies [c180ac8]
-  - @usedapp/core@0.3.22
+  - @createdapp/core@0.3.22
 
 ## 0.2.8
 
@@ -71,7 +71,7 @@
 
 - 0ae62a3: Bump ethers to version 5.2.0
 - Updated dependencies [0ae62a3]
-  - @usedapp/core@0.3.21
+  - @createdapp/core@0.3.21
 
 ## 0.2.7
 
@@ -80,7 +80,7 @@
 - 75b6ea8: Add useSendTransaction, refactor useContractFunction
 - Updated dependencies [9d4fcca]
 - Updated dependencies [75b6ea8]
-  - @usedapp/core@0.3.19
+  - @createdapp/core@0.3.19
 
 ## 0.2.6
 
@@ -89,7 +89,7 @@
 - 50633d0: Bump ethers to version 5.1.4
 - Updated dependencies [50633d0]
 - Updated dependencies [660d2eb]
-  - @usedapp/core@0.3.17
+  - @createdapp/core@0.3.17
 
 ## 0.2.5
 
@@ -97,7 +97,7 @@
 
 - 47ff3de: Use exact versions of dependencies
 - Updated dependencies [47ff3de]
-  - @usedapp/core@0.3.11
+  - @createdapp/core@0.3.11
 
 ## 0.2.4
 
@@ -105,7 +105,7 @@
 
 - 21a6dd4: Set ethers to version 5.0.32
 - Updated dependencies [21a6dd4]
-  - @usedapp/core@0.3.6
+  - @createdapp/core@0.3.6
 
 ## 0.2.3
 
@@ -150,7 +150,7 @@
 
 - Updated dependencies [67b2dda]
 - Updated dependencies [7a74be4]
-  - @usedapp/core@0.3.0
+  - @createdapp/core@0.3.0
 
 ## 0.1.4
 
@@ -159,7 +159,7 @@
 - 8c06358: 💲 Create use token allowance hook
 - Updated dependencies [21a6209]
 - Updated dependencies [8c06358]
-  - @usedapp/core@0.2.2
+  - @createdapp/core@0.2.2
 
 ## 0.1.3
 
@@ -173,7 +173,7 @@
 
 - Updated dependencies [4ba5235]
 - Updated dependencies [a9768c8]
-  - @usedapp/core@0.2.0
+  - @createdapp/core@0.2.0
 
 ## 0.1.2
 
@@ -184,12 +184,12 @@
   (Test of publishing)
 
 - Updated dependencies [56c0156]
-  - @usedapp/core@0.1.3
+  - @createdapp/core@0.1.3
 
 ## 0.1.1
 
 ### Patch Changes
 
-- 7405165: Introduce the first version of @usedapp/testing.
+- 7405165: Introduce the first version of @createdapp/testing.
 - Updated dependencies [7405165]
-  - @usedapp/core@0.1.2
+  - @createdapp/core@0.1.2

@@ -2,7 +2,7 @@
 
 Ethereum 🤝 React
 
-useDapp Documentation
+createDapp Documentation
 =====================
 | Framework for rapid Dapp development.
 | Simple. Robust. Extendable. Testable.

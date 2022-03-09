@@ -6,7 +6,7 @@ Developer tools
 Installation
 ------------
 
-In order to use useDapp developer tools you can install it for your browser.
+In order to use createDapp developer tools you can install it for your browser.
 
 #. Chrome Web Store 
 #. Firefox Add-ons 
@@ -17,21 +17,21 @@ Alternatively you can built it from source and manually install it.
 
 .. code-block:: text
 
-  git clone https://github.com/EthWorks/useDApp.git
-  cd useDApp
+  git clone https://github.com/kihonq/createDApp.git
+  cd createDApp
   yarn && yarn build
 
 2. If you are using the chrome browser:
   #. Go to `chrome://extensions/ <chrome://extensions/>`_
   #. Toggle developer mode
   #. Click load unpacked
-  #. Open ``useDapp/packages/extension/build``
+  #. Open ``createDapp/packages/extension/build``
 
 3. If you are using firefox:
   #. Go to `about:debugging <about:debugging>`_
   #. Click This Firefox
   #. Click Load Temporary Add-on
-  #. Open ``useDapp/packages/extension/build/manifest.json``
+  #. Open ``createDapp/packages/extension/build/manifest.json``
 
 List of events
 --------------
@@ -41,7 +41,7 @@ List of events
 Init
 ~~~~
 
- This is always the first event being displayed. It is fired when the useDapp library loads and contains a timestamp of that. All other events are timed relative to Init.
+ This is always the first event being displayed. It is fired when the createDapp library loads and contains a timestamp of that. All other events are timed relative to Init.
 
 Network connected / disconnected 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,12 +56,12 @@ Account connected / disconnected 
 Block found
 ~~~~~~~~~~~
 
-useDapp is constantly listening for new blocks. It does this so that it can maintain up to date blockchain state.
+createDapp is constantly listening for new blocks. It does this so that it can maintain up to date blockchain state.
 
 Calls updated
 ~~~~~~~~~~~~~
 
-To understand the information that the extension presents it is necessary to understand how useDapp manages blockchain data. Whenever the app makes a call to a high level hook like ``useTokenBalance`` a low level ``useContractCalls`` is invoked. useDapp maintains a list of blockchain calls that will be made whenever a new block is found. 
+To understand the information that the extension presents it is necessary to understand how createDapp manages blockchain data. Whenever the app makes a call to a high level hook like ``useTokenBalance`` a low level ``useContractCalls`` is invoked. createDapp maintains a list of blockchain calls that will be made whenever a new block is found. 
 
 ``useContractCalls`` adds or removes calls from that list. Because making lots of blockchain calls at once is problematic the calls are actually aggregated together in one giant call to the `Multicall <https://github.com/makerdao/multicall>`_ contract. The resulting data is later decoded and returned back to higher level hooks.
 

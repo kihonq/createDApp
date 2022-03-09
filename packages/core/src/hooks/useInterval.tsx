@@ -1,20 +1,12 @@
-import { useEffect, useRef } from 'react'
+import { createEffect, onCleanup } from 'solid-js'
 
-// https://usehooks-typescript.com/react-hook/use-interval
-export function useInterval(callback: () => void, delay: number | null) {
-  const savedCallback = useRef(callback)
-
-  useEffect(() => {
-    savedCallback.current = callback
-  }, [callback])
-
-  useEffect(() => {
+export const useInterval = (callback: () => void, delay: number | null) =>
+  createEffect(() => {
     if (delay === null) {
       return
     }
 
-    const id = setInterval(() => savedCallback.current(), delay)
+    const id = setInterval(() => callback(), delay)
 
-    return () => clearInterval(id)
-  }, [delay])
-}
+    onCleanup(() => clearInterval(id))
+  })

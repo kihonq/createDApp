@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { useBlockMeta } from '@usedapp/core'
+import { useBlockMeta } from '@createdapp/core'
 import { renderWeb3Hook, sleep } from '../src'
 
 describe('useBlockMeta', () => {

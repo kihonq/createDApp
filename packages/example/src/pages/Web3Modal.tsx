@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'solid-js'
 import { formatEther } from '@ethersproject/units'
-import { useEtherBalance, useEthers } from '@usedapp/core'
+import { useEtherBalance, useEthers } from '@createdapp/core'
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'

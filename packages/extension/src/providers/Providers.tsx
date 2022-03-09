@@ -1,14 +1,15 @@
-import React, { ReactNode } from 'react'
+import type { JSXElement } from 'solid-js'
+
 import { EventProvider } from './events/EventProvider'
 import { AbiProvider } from './abi/AbiProvider'
 import { GlobalStyle } from './GlobalStyle'
 import { NameTagsProvider } from './nameTags/NameTagsProvider'
 
 interface Props {
-  children: ReactNode
+  children: JSXElement
 }
 
-export function Providers({ children }: Props) {
+export const Providers = ({ children }: Props) => {
   return (
     <NameTagsProvider>
       <EventProvider>

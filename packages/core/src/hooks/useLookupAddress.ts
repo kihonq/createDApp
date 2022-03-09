@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { createEffect, createSignal, onCleanup } from 'solid-js'
+
 import { useEthers } from './useEthers'
 
 export function useLookupAddress() {
   const { account, library } = useEthers()
-  const [ens, setEns] = useState<string | null>()
+  const [ens, setEns] = createSignal<string | null>()
 
-  useEffect(() => {
+  createEffect(() => {
     let mounted = true
 
     if (account && library) {
@@ -19,10 +20,10 @@ export function useLookupAddress() {
         .catch(() => setEns(null))
     }
 
-    return () => {
+    onCleanup(() => {
       mounted = false
-    }
-  }, [account, library])
+    })
+  })
 
   return ens
 }

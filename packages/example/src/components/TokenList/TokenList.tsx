@@ -1,12 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
 import { formatUnits } from '@ethersproject/units'
-import { ERC20Interface, useCalls, useEthers, useTokenList } from '@usedapp/core'
+import { Contract } from '@ethersproject/contracts'
+import { ERC20Interface, useCalls, useEthers, useTokenList } from '@createdapp/core'
+
 import { Colors } from '../../global/styles'
 import { TextBold } from '../../typography/Text'
-import { TokenIcon } from './TokenIcon'
 import { toHttpPath } from '../../utils'
-import { Contract } from '@ethersproject/contracts'
+
+import { TokenIcon } from './TokenIcon'
+import { For, Show } from 'solid-js'
 
 const UNISWAP_DEFAULT_TOKEN_LIST_URI = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
@@ -24,7 +26,7 @@ function useTokensBalance(tokenList?: any[], account?: string | null) {
 
 export function TokenList() {
   const { account, chainId } = useEthers()
-  const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI, chainId) || {}
+  const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI, chainId)() || {}
   const balances = useTokensBalance(tokens, account)
 
   return (
@@ -33,22 +35,28 @@ export function TokenList() {
         <ListTitle>{name}</ListTitle>
         {logoURI && <ListLogo src={toHttpPath(logoURI)} alt={`${name} logo`} />}
       </ListTitleRow>
-      {tokens &&
-        tokens.map((token, idx) => {
-          const balance = balances[idx]
-          return (
-            <TokenItem key={token.address}>
-              <TokenIconContainer>
-                {token.logoURI && <TokenIcon src={token.logoURI} alt={`${token.symbol} logo`} />}
-              </TokenIconContainer>
-              <TokenName>{token.name}</TokenName>
-              <TokenTicker>{token.symbol}</TokenTicker>
-              {balance && !balance.error && (
-                <TokenBalance>{formatUnits(balance.value[0], token.decimals)}</TokenBalance>
-              )}
-            </TokenItem>
-          )
-        })}
+      <Show when={tokens}>
+        {(values) => (
+          <For each={values}>
+            {(token, idx) => {
+              const balance = balances()[idx()]
+
+              return (
+                <TokenItem>
+                  <TokenIconContainer>
+                    {token.logoURI && <TokenIcon src={token.logoURI} alt={`${token.symbol} logo`} />}
+                  </TokenIconContainer>
+                  <TokenName>{token.name}</TokenName>
+                  <TokenTicker>{token.symbol}</TokenTicker>
+                  {balance && !balance.error && (
+                    <TokenBalance>{formatUnits(balance.value[0], token.decimals)}</TokenBalance>
+                  )}
+                </TokenItem>
+              )
+            }}
+          </For>
+        )}
+      </Show>
     </List>
   )
 }

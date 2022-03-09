@@ -1,4 +1,3 @@
-import React from 'react'
 import type { NetworkConnectedEvent } from '../../../providers/events/State'
 import { Text } from '../../shared'
 import { Link, Property, Table } from './components'
@@ -13,8 +12,8 @@ export function NetworkConnectedPreview({ event }: Props) {
   return (
     <>
       <Text>
-        useDApp has connected to a network. It will poll the network for new blocks, query the contract state and check
-        transaction status.
+        createDApp has connected to a network. It will poll the network for new blocks, query the contract state and
+        check transaction status.
       </Text>
       <Table>
         <Property name="Name">{event.network}</Property>

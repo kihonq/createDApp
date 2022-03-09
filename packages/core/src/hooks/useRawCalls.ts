@@ -1,28 +1,27 @@
-import { useEffect, useMemo } from 'react'
+import { Accessor, createEffect, createMemo, onCleanup } from 'solid-js'
+
 import { RawCallResult, useChainState } from '../providers'
 import { RawCall } from '../providers'
 import { Falsy } from '../model/types'
 
-export function useRawCalls(calls: (RawCall | Falsy)[]): RawCallResult[] {
+export const useRawCalls = (calls: (RawCall | Falsy)[]): Accessor<RawCallResult[]> => {
   const { dispatchCalls, value } = useChainState()
 
-  useEffect(() => {
+  createEffect(() => {
     const filteredCalls = calls.filter(Boolean) as RawCall[]
     dispatchCalls({ type: 'ADD_CALLS', calls: filteredCalls })
-    return () => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls })
-  }, [JSON.stringify(calls), dispatchCalls])
+    onCleanup(() => dispatchCalls({ type: 'REMOVE_CALLS', calls: filteredCalls }))
+  })
 
-  return useMemo(
-    () =>
-      calls.map((call) => {
-        if (call && value) {
-          return value.state?.[call.address]?.[call.data]
-        }
-      }),
-    [JSON.stringify(calls), value]
+  const result = createMemo(() =>
+    calls.map((call) => {
+      if (call && value) {
+        return value.state?.[call.address]?.[call.data]
+      }
+    })
   )
+
+  return result
 }
 
-export function useRawCall(call: RawCall | Falsy) {
-  return useRawCalls([call])[0]
-}
+export const useRawCall = (call: RawCall | Falsy) => useRawCalls([call])()[0]

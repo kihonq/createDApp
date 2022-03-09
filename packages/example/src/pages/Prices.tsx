@@ -1,5 +1,5 @@
-import React from 'react'
-import { useCoingeckoPrice, useCoingeckoTokenPrice } from '@usedapp/coingecko'
+import { useCoingeckoPrice, useCoingeckoTokenPrice } from '@createdapp/coingecko'
+
 import { Container, ContentBlock, ContentRow, MainContent, Section, SectionRow } from '../components/base/base'
 import { Label } from '../typography/Label'
 import { TextInline } from '../typography/Text'

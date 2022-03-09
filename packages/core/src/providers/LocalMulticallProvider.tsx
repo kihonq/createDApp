@@ -1,13 +1,15 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { JSXElement, createEffect, createSignal, Show } from 'solid-js'
+
 import { getChainById } from '../helpers'
+import { deployContract } from '../helpers/contract'
 import { useEthers } from '../hooks'
+import multicallABI from '../constants/abi/MultiCall.json'
+
 import { useBlockNumber } from './blockNumber'
 import { useConfig, useUpdateConfig } from './config'
-import multicallABI from '../constants/abi/MultiCall.json'
-import { deployContract } from '../helpers/contract'
 
 interface LocalMulticallProps {
-  children: ReactNode
+  children: JSXElement
 }
 
 enum LocalMulticallState {
@@ -18,22 +20,22 @@ enum LocalMulticallState {
   Error,
 }
 
-export function LocalMulticallProvider({ children }: LocalMulticallProps) {
+export function LocalMulticallProvider(props: LocalMulticallProps) {
   const updateConfig = useUpdateConfig()
   const { multicallAddresses } = useConfig()
   const { library, chainId } = useEthers()
-  const [localMulticallState, setLocalMulticallState] = useState(LocalMulticallState.Unknown)
-  const [multicallBlockNumber, setMulticallBlockNumber] = useState<number>()
+  const [localMulticallState, setLocalMulticallState] = createSignal(LocalMulticallState.Unknown)
+  const [multicallBlockNumber, setMulticallBlockNumber] = createSignal<number>()
   const blockNumber = useBlockNumber()
 
-  useEffect(() => {
+  createEffect(() => {
     if (!library || !chainId) {
       setLocalMulticallState(LocalMulticallState.Unknown)
     } else if (!getChainById(chainId)?.isLocalChain) {
       setLocalMulticallState(LocalMulticallState.NonLocal)
     } else if (multicallAddresses && multicallAddresses[chainId]) {
       setLocalMulticallState(LocalMulticallState.Deployed)
-    } else if (localMulticallState !== LocalMulticallState.Deploying) {
+    } else if (localMulticallState() !== LocalMulticallState.Deploying) {
       const signer = library.getSigner()
       if (!signer) {
         setLocalMulticallState(LocalMulticallState.Error)
@@ -52,20 +54,23 @@ export function LocalMulticallProvider({ children }: LocalMulticallProps) {
           setLocalMulticallState(LocalMulticallState.Error)
         }
       }
+
       deployMulticall()
     }
-  }, [library, chainId])
+  })
 
-  const awaitingMulticallBlock = multicallBlockNumber && blockNumber && blockNumber < multicallBlockNumber
+  const awaitingMulticallBlock = () =>
+    Boolean(multicallBlockNumber()) && blockNumber && blockNumber < Number(multicallBlockNumber())
+  const isDeploying = () =>
+    localMulticallState() === LocalMulticallState.Deploying ||
+    (localMulticallState() === LocalMulticallState.Deployed && awaitingMulticallBlock())
+  const isError = () => localMulticallState() === LocalMulticallState.Error
 
-  if (
-    localMulticallState === LocalMulticallState.Deploying ||
-    (localMulticallState === LocalMulticallState.Deployed && awaitingMulticallBlock)
-  ) {
-    return <div>Deploying multicall...</div>
-  } else if (localMulticallState === LocalMulticallState.Error) {
-    return <div>Error deploying multicall contract</div>
-  } else {
-    return <>{children}</>
-  }
+  return (
+    <Show when={!isDeploying()} fallback={<div>Deploying multicall...</div>}>
+      <Show when={!isError()} fallback={<div>Error deploying multicall contract</div>}>
+        {props.children}
+      </Show>
+    </Show>
+  )
 }

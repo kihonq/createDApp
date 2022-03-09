@@ -7,7 +7,8 @@ import { useRawCalls } from './useRawCalls'
  */
 export function useChainCalls(calls: (RawCall | Falsy)[]) {
   const results = useRawCalls(calls)
-  return results.map((result) => result?.value)
+
+  return results().map((result) => result?.value)
 }
 
 /**

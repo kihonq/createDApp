@@ -1,11 +1,14 @@
-import React, { FormEvent, useState } from 'react'
-import styled from 'styled-components'
+import { createSignal, For } from 'solid-js'
+import { styled } from 'solid-styled-components'
+
 import { Colors, Font } from '../../design'
 import { useUserAbis } from '../../hooks'
 import type { AbiEntry } from '../../providers/abi/AbiEntry'
 import { DEFAULT_ENTRIES } from '../../providers/abi/AbiProvider'
+
 import { Page, Text } from '../shared'
 import { SubmitButton } from '../shared/SubmitButton'
+
 import { parseAbiInput } from './parseAbiInput'
 
 interface Props {
@@ -17,15 +20,15 @@ const PLACEHOLDER =
   'function balanceOf(address owner) view returns (uint)\n' +
   'function allowance(address owner, address spender) view returns (uint)'
 
-export function Abis({ onNavigate }: Props) {
+export const Abis = ({ onNavigate }: Props) => {
   const [abis, setAbis] = useUserAbis()
-  const [text, setText] = useState('')
-  const [error, setError] = useState('')
+  const [text, setText] = createSignal('')
+  const [error, setError] = createSignal('')
 
-  function onSubmit(e: FormEvent) {
+  function onSubmit(e: Event) {
     e.preventDefault()
     try {
-      const entries = parseAbiInput(text)
+      const entries = parseAbiInput(text())
       if (entries.length > 0) {
         setAbis([...entries, ...abis])
       }
@@ -49,26 +52,33 @@ export function Abis({ onNavigate }: Props) {
           calls that your application is making.
         </Text>
         <form onSubmit={onSubmit}>
-          <TextArea value={text} onChange={(e) => setText(e.target.value)} placeholder={PLACEHOLDER} rows={6} />
+          <TextArea
+            value={text()}
+            onChange={(e) => setText(e.currentTarget.value)}
+            placeholder={PLACEHOLDER}
+            rows={6}
+          />
           <Controls>
             <SubmitButton type="submit" value="Add ABIs" />
-            <ErrorMessage>{error}</ErrorMessage>
+            <ErrorMessage>{error()}</ErrorMessage>
           </Controls>
         </form>
         <AbiList>
-          {getAbis(abis).map((entry, i) => (
-            <AbiItem key={i} className={entry.disabled ? 'disabled' : ''}>
-              <Signature className={entry.shadowed ? 'shadowed' : ''}>{entry.code}</Signature>
-              {!entry.disabled && <Remove onClick={() => remove(i)}>Remove</Remove>}
-            </AbiItem>
-          ))}
+          <For each={getAbis(abis)}>
+            {(entry, i) => (
+              <AbiItem className={entry.disabled ? 'disabled' : ''}>
+                <Signature className={entry.shadowed ? 'shadowed' : ''}>{entry.code}</Signature>
+                {!entry.disabled && <Remove onClick={() => remove(i())}>Remove</Remove>}
+              </AbiItem>
+            )}
+          </For>
         </AbiList>
       </Wrapper>
     </Page>
   )
 }
 
-function getAbis(userAbis: AbiEntry[]) {
+const getAbis = (userAbis: AbiEntry[]) => {
   const builtIn = DEFAULT_ENTRIES.map((entry) => ({
     ...entry,
     disabled: true,

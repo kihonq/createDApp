@@ -22,7 +22,7 @@ Given base token name and the supported currencies to get token price from CoinG
 
 .. code-block:: javascript
 
-  import { useCoingeckoPrice } from '@usedapp/coingecko'
+  import { useCoingeckoPrice } from '@createdapp/coingecko'
 
   const etherPrice = useCoingeckoPrice('ethereum', 'usd')
 
@@ -49,7 +49,7 @@ Given token contract and the supported currencies to get token price from CoinGe
 
 .. code-block:: javascript
 
-  import { useCoingeckoTokenPrice } from '@usedapp/coingecko'
+  import { useCoingeckoTokenPrice } from '@createdapp/coingecko'
 
   const WETH_CONTRACT = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
   const wethPrice = useCoingeckoTokenPrice(WETH_CONTRACT, 'usd')

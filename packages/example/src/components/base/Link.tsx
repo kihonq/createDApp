@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
+
 import { Colors, Transitions } from '../../global/styles'
 
 export const Link = styled.a`

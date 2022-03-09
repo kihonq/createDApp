@@ -9,7 +9,13 @@
     "declarationMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "target": "ESNext",
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "strictNullChecks": true,
+    "preserveSymlinks": true
   },
   "include": [
     "src",

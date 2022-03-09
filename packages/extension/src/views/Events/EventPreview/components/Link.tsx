@@ -1,10 +1,11 @@
-import React, { ReactNode } from 'react'
-import styled from 'styled-components'
+import type { JSXElement } from 'solid-js'
+import { styled } from 'solid-styled-components'
+
 import { Colors } from '../../../../design'
 
 interface Props {
   href: string
-  children?: ReactNode
+  children?: JSXElement
   block?: boolean
 }
 

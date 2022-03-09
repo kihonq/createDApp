@@ -1,10 +1,10 @@
 /* global chrome */
-import { useEffect, useState } from 'react'
+import { createEffect, createSignal, onCleanup } from 'solid-js'
 
-export function useStorage<T>(key: string) {
-  const [state, setState] = useState<T | undefined>(undefined)
+export const useStorage = <T>(key: string) => {
+  const [state, setState] = createSignal<T | undefined>(undefined)
 
-  useEffect(() => {
+  createEffect(() => {
     setState(undefined)
     if (window.chrome?.storage) {
       let cancelled = false
@@ -13,9 +13,10 @@ export function useStorage<T>(key: string) {
           setState(result[key])
         }
       })
-      return () => {
+
+      onCleanup(() => {
         cancelled = true
-      }
+      })
     } else {
       const value = localStorage.getItem(key)
       if (value === null) {
@@ -24,9 +25,9 @@ export function useStorage<T>(key: string) {
         setState(JSON.parse(value))
       }
     }
-  }, [key])
+  })
 
-  useEffect(() => {
+  createEffect(() => {
     if (state === undefined) {
       return
     }
@@ -36,7 +37,7 @@ export function useStorage<T>(key: string) {
     } else {
       localStorage.setItem(key, JSON.stringify(state))
     }
-  }, [key, state])
+  })
 
-  return [state, setState] as const
+  return [state(), setState] as const
 }

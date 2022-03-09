@@ -1,5 +1,4 @@
-import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
 import { Colors, Font } from '../../../../design'
 import type { ParsedValue } from '../../../../providers/abi/ParsedValue'
 import { formatInteger } from '../../EventItem/formatInteger'

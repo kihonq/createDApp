@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'usedapp'
+project = 'createdapp'
 copyright = '2021 Ethworks sp z o.o.'
 author = 'Ethworks team'
 

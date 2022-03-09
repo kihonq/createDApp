@@ -1,37 +1,37 @@
-import { useEffect, useState } from 'react'
-import { useBlockNumber } from '@usedapp/core'
+import { createEffect, createSignal } from 'solid-js'
+import { useBlockNumber } from '@createdapp/core'
 
 import { getCoingeckoPrice } from './simple_price'
 import { getCoingeckoTokenPrice } from './simple_token_price'
 
-export const useCoingeckoPrice = (base: string, quote = 'usd'): string | undefined => {
-  const [price, setPrice] = useState<string | undefined>(undefined)
+export const useCoingeckoPrice = (base: string, quote = 'usd') => {
+  const [price, setPrice] = createSignal<string>()
   const blockNo = useBlockNumber()
 
-  useEffect(() => {
-    async function getPrice() {
+  createEffect(async (prevBlockNo) => {
+    if (!blockNo || prevBlockNo !== blockNo) {
       const tokenPrice = await getCoingeckoPrice(base, quote)
       setPrice(tokenPrice)
     }
 
-    getPrice()
-  }, [base, quote, blockNo])
+    return blockNo
+  }, blockNo)
 
-  return price
+  return price()
 }
 
-export const useCoingeckoTokenPrice = (contract: string, quote = 'usd', platform = 'ethereum'): string | undefined => {
-  const [price, setPrice] = useState<string | undefined>(undefined)
+export const useCoingeckoTokenPrice = (contract: string, quote = 'usd', platform = 'ethereum') => {
+  const [price, setPrice] = createSignal<string>()
   const blockNo = useBlockNumber()
 
-  useEffect(() => {
-    async function getPrice() {
+  createEffect(async (prevBlockNo) => {
+    if (!blockNo || prevBlockNo !== blockNo) {
       const tokenPrice = await getCoingeckoTokenPrice(contract, quote, platform)
       setPrice(tokenPrice)
     }
 
-    getPrice()
-  }, [contract, quote, platform, blockNo])
+    return blockNo
+  }, blockNo)
 
-  return price
+  return price()
 }

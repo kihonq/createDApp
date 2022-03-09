@@ -1,4 +1,3 @@
-import React from 'react'
 import { useAbiParser } from '../../../../hooks'
 import { CallDisplay } from './CallDisplay'
 

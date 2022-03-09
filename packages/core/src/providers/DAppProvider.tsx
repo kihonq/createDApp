@@ -1,5 +1,7 @@
-import { ReactNode, useMemo } from 'react'
+import { JSXElement, createMemo } from 'solid-js'
+
 import { Config, Chain } from '../constants'
+
 import { ConfigProvider } from './config'
 import { BlockNumberProvider } from './blockNumber'
 import { ChainStateProvider } from './chainState'
@@ -12,20 +14,20 @@ import { NetworkProvider } from './network'
 import { InjectedNetworkProvider } from './injectedNetwork'
 
 interface DAppProviderProps {
-  children: ReactNode
+  children: JSXElement
   config: Config
 }
 
-export function DAppProvider({ config, children }: DAppProviderProps) {
-  return (
-    <ConfigProvider config={config}>
-      <DAppProviderWithConfig>{children}</DAppProviderWithConfig>
-    </ConfigProvider>
-  )
+interface WithConfigProps {
+  children: JSXElement
 }
 
-interface WithConfigProps {
-  children: ReactNode
+export const DAppProvider = (props: DAppProviderProps) => {
+  return (
+    <ConfigProvider config={props.config}>
+      <DAppProviderWithConfig>{props.children}</DAppProviderWithConfig>
+    </ConfigProvider>
+  )
 }
 
 const getMulticallAddresses = (networks: Chain[] | undefined) => {
@@ -44,13 +46,12 @@ const getMulticall2Addresses = (networks: Chain[] | undefined) => {
   return result
 }
 
-function DAppProviderWithConfig({ children }: WithConfigProps) {
+const DAppProviderWithConfig = (props: WithConfigProps) => {
   const { multicallAddresses, networks, multicallVersion } = useConfig()
-  const defaultAddresses = useMemo(
-    () => (multicallVersion === 1 ? getMulticallAddresses(networks) : getMulticall2Addresses(networks)),
-    [networks, multicallVersion]
+  const defaultAddresses = createMemo(
+    () => (multicallVersion === 1 ? getMulticallAddresses(networks) : getMulticall2Addresses(networks))
   )
-  const multicallAddressesMerged = { ...defaultAddresses, ...multicallAddresses }
+  const multicallAddressesMerged = () => ({ ...defaultAddresses(), ...multicallAddresses })
 
   return (
     <NetworkProvider>
@@ -58,9 +59,9 @@ function DAppProviderWithConfig({ children }: WithConfigProps) {
         <BlockNumberProvider>
           <NetworkActivator />
           <LocalMulticallProvider>
-            <ChainStateProvider multicallAddresses={multicallAddressesMerged}>
+            <ChainStateProvider multicallAddresses={multicallAddressesMerged()}>
               <NotificationsProvider>
-                <TransactionProvider>{children}</TransactionProvider>
+                <TransactionProvider>{props.children}</TransactionProvider>
               </NotificationsProvider>
             </ChainStateProvider>
           </LocalMulticallProvider>

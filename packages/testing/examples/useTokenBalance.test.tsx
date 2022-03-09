@@ -1,6 +1,6 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { Contract } from '@ethersproject/contracts'
-import { useTokenBalance } from '@usedapp/core'
+import { useTokenBalance } from '@createdapp/core'
 import chai, { expect } from 'chai'
 import { solidity } from 'ethereum-waffle'
 import { renderWeb3Hook } from '../src'

@@ -1,7 +1,8 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import { Link } from 'solid-app-router'
+import { styled } from 'solid-styled-components'
+
 import { Colors, Shadows, Sizes, Transitions } from '../global/styles'
+
 import { HeaderContainer } from './base/base'
 
 export function TopBar() {
@@ -16,35 +17,35 @@ export function TopBar() {
             </ToMainBottom>
           </ToMain>
           <HeaderNavLinks>
-            <HeaderLink activeClassName="active-page" to="/balance">
+            <HeaderLink class="active-page" href="/balance">
               {' '}
               Balance{' '}
             </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/prices">
+            <HeaderLink class="active-page" href="/prices">
               {' '}
               Prices{' '}
             </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/block">
+            <HeaderLink class="active-page" href="/block">
               {' '}
               Block{' '}
             </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/tokens">
+            <HeaderLink class="active-page" href="/tokens">
               {' '}
               Tokens{' '}
             </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/send">
+            <HeaderLink class="active-page" href="/send">
               {' '}
               Send Ether{' '}
             </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/transactions">
+            <HeaderLink class="active-page" href="/transactions">
               {' '}
               Transactions{' '}
             </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/web3modal">
+            <HeaderLink class="active-page" href="/web3modal">
               {' '}
               Web3Modal example{' '}
             </HeaderLink>
-            <HeaderLink activeClassName="active-page" to="/web3react">
+            <HeaderLink class="active-page" href="/web3react">
               {' '}
               Web3React Connector example{' '}
             </HeaderLink>
@@ -115,7 +116,7 @@ const HeaderNavLinks = styled.div`
   transform: translateX(-50%);
 `
 
-const HeaderLink = styled(NavLink)`
+const HeaderLink = styled(Link)`
   display: flex;
   position: relative;
   justify-content: center;

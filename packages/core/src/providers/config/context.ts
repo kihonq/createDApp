@@ -1,9 +1,13 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext } from 'solid-js'
+
 import { FullConfig, Config, Chain } from '../../constants'
 import { DEFAULT_CONFIG } from '../../model/config/default'
 import { getChainById } from '../../helpers/chain'
 
-export const ConfigContext = createContext<{ config: FullConfig; updateConfig: (config: Config) => void }>({
+export const ConfigContext = createContext<{
+  config: FullConfig
+  updateConfig: (config: Config) => void
+}>({
   config: DEFAULT_CONFIG,
   updateConfig: () => undefined,
 })
@@ -22,6 +26,7 @@ export function useConfig() {
   if (config.supportedChains) {
     console.warn('supportedChain is deprecated, please pass networks instead')
     const networks: Chain[] = config.supportedChains?.map((chainId) => getChainById(chainId)) as Chain[]
+
     return validConfigs({
       ...config,
       networks,

@@ -1,20 +1,24 @@
-import { useBlockNumber } from '../providers/blockNumber/context'
+import { createEffect, createSignal } from 'solid-js'
 import { BigNumber } from 'ethers'
-import { useEffect, useState } from 'react'
+
+import { useBlockNumber } from '../providers/blockNumber/context'
+
 import { useEthers } from './useEthers'
 
-export function useGasPrice(): BigNumber | undefined {
+export const useGasPrice = () => {
   const { library } = useEthers()
   const blockNumber = useBlockNumber()
-  const [gasPrice, setGasPrice] = useState<BigNumber | undefined>()
+  const [gasPrice, setGasPrice] = createSignal<BigNumber>()
 
   async function updateGasPrice() {
     setGasPrice(await library?.getGasPrice())
   }
 
-  useEffect(() => {
-    updateGasPrice()
-  }, [library, blockNumber])
+  createEffect((prevBlockNumber) => {
+    if (!blockNumber || blockNumber !== prevBlockNumber) {
+      updateGasPrice()
+    }
+  }, blockNumber)
 
   return gasPrice
 }

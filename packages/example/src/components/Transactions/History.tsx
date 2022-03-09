@@ -7,9 +7,9 @@ import {
   getStoredTransactionState,
   StoredTransaction,
   shortenTransactionHash,
-} from '@usedapp/core'
-import React, { ReactElement, ReactNode } from 'react'
-import styled from 'styled-components'
+} from '@createdapp/core'
+import React, { ReactElement, ReactNode } from 'solid-js'
+import { styled } from 'solid-styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
 import {

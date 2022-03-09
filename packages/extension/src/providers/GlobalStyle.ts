@@ -1,7 +1,8 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyles } from 'solid-styled-components'
+
 import { Colors, Font } from '../design'
 
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyles`
   * {
     box-sizing: border-box;
   }

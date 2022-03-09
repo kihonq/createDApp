@@ -1,6 +1,9 @@
-import React, { useEffect, useRef } from 'react'
-import styled from 'styled-components'
+import { createEffect, For, onCleanup, onMount } from 'solid-js'
+import { createStore } from 'solid-js/store'
+import { styled } from 'solid-styled-components'
+
 import type { Event } from '../../../providers/events/State'
+
 import { EventListItem } from './EventListItem'
 
 interface Props {
@@ -10,42 +13,45 @@ interface Props {
 }
 
 export function EventList({ events, selected, onSelect }: Props) {
-  const state = useRef({
+  const [state, setState] = createStore({
     atBottom: true,
     justScrolled: false,
   })
-  const wrapper = useRef<HTMLDivElement>(null)
+  let wrapper: HTMLDivElement | undefined
 
-  useEffect(() => {
+  onMount(() => {
     function onScroll() {
-      const el = wrapper.current
+      const el = wrapper
       if (el) {
-        if (state.current.justScrolled) {
-          state.current.justScrolled = false
+        if (state.justScrolled) {
+          setState('justScrolled', false)
         } else {
-          state.current.atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 1
+          setState('atBottom', el.scrollHeight - el.scrollTop - el.clientHeight < 1)
         }
       }
     }
-    if (wrapper.current) {
-      wrapper.current.addEventListener('scroll', onScroll)
-      return () => wrapper.current?.removeEventListener('scroll', onScroll)
-    }
-  }, [])
 
-  useEffect(() => {
-    if (state.current.atBottom && wrapper.current) {
-      state.current.justScrolled = true
-      wrapper.current.scrollTop = wrapper.current.scrollHeight
+    if (wrapper) {
+      wrapper.addEventListener('scroll', onScroll)
+      onCleanup(() => wrapper?.removeEventListener('scroll', onScroll))
     }
-  }, [events])
+  })
+
+  createEffect((prevEvents) => {
+    if (!events || prevEvents !== events) {
+      if (state.atBottom && wrapper) {
+        setState('justScrolled', true)
+        wrapper.scrollTop = wrapper.scrollHeight
+      }
+    }
+
+    return events
+  })
 
   return (
     <ListWrapper ref={wrapper}>
       <List>
-        {events.map((e, i) => (
-          <EventListItem key={i} event={e} selected={e === selected} onSelect={onSelect} />
-        ))}
+        <For each={events}>{(e) => <EventListItem event={e} selected={e === selected} onSelect={onSelect} />}</For>
       </List>
     </ListWrapper>
   )

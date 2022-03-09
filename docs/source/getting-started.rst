@@ -4,9 +4,9 @@ Getting started
 Installation
 ------------
 
-To start working with useDapp you need to have a working React environment.
+To start working with createDapp you need to have a working React environment.
 
-To get started, add the following npm package :code:`@usedapp/core` to your project:
+To get started, add the following npm package :code:`@createdapp/core` to your project:
 
 .. tabs::
 
@@ -14,13 +14,13 @@ To get started, add the following npm package :code:`@usedapp/core` to your proj
 
     .. code-block:: text
 
-      yarn add @usedapp/core
+      yarn add @createdapp/core
 
   .. group-tab:: NPM
 
     .. code-block:: text
 
-      npm install @usedapp/core
+      npm install @createdapp/core
 
 Example
 -------
@@ -29,7 +29,7 @@ Below is a simple example:
 
 .. code-block:: javascript
 
-  import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@usedapp/core'
+  import { Mainnet, DAppProvider, useEtherBalance, useEthers, Config } from '@createdapp/core'
   import { formatEther } from '@ethersproject/units'
 
   const config: Config = {
@@ -63,7 +63,7 @@ Below is a simple example:
   }
 
 
-Example is available `here <https://usedapp-example.netlify.app/>`_ and full example code is available `here <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_.
+Example is available `here <https://createdapp-example.netlify.app/>`_ and full example code is available `here <https://github.com/kihonq/createDapp/tree/master/packages/example>`_.
 
 Let's go over it step by step.
 
@@ -166,7 +166,7 @@ For example:
   yarn run v1.22.10
   $ tsc --noEmit && rimraf build && webpack --mode production --progress
   src/components/Transactions/Forms.tsx:12:52 - error TS2345: Argument of type 'Interface' is not assignable to parameter of type 'ContractInterface'.
-    Property 'getError' is missing in type 'import("github.com/ethworks/usedapp/packages/example/node_modules/@ethersproject/abi/lib/interface").Interface' but required in type 'import("github.com/ethworks/usedapp/packages/example/node_modules/@ethersproject/contracts/node_modules/@ethersproject/abi/lib/interface").Interface'.
+    Property 'getError' is missing in type 'import("github.com/ethworks/createdapp/packages/example/node_modules/@ethersproject/abi/lib/interface").Interface' but required in type 'import("github.com/ethworks/createdapp/packages/example/node_modules/@ethersproject/contracts/node_modules/@ethersproject/abi/lib/interface").Interface'.
 
   12 const contract = new Contract(wethContractAddress, wethInterface)
                                                         ~~~~~~~~~~~~~
@@ -182,7 +182,7 @@ For example:
   error Command failed with exit code 2.
   info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
 
-It may be an error of yarn getting internal versions of ``@ethersproject`` that are higher then specified in useDApp.
+It may be an error of yarn getting internal versions of ``@ethersproject`` that are higher then specified in createDApp.
 To fix this you need to add resolutions to your ``package.json`` with etherspoject packages that cause an error, with correct version.
 Resolutions force yarn to install specified versions of packages.
 

@@ -1,12 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useEthers, getExplorerAddressLink, useEtherBalance } from '@usedapp/core'
-import { TransactionsList } from '../Transactions/History'
+import { createEffect, Show } from 'solid-js'
+import { styled } from 'solid-styled-components'
+import type { Dispatch, SetStateAction } from '@createdapp/core'
+import { useEthers, getExplorerAddressLink, useEtherBalance } from '@createdapp/core'
 import { formatEther } from '@ethersproject/units'
 import { BigNumber } from 'ethers'
+import { Transition } from 'solid-transition-group'
+
+import { TransactionsList } from '../Transactions/History'
 import { Colors, Shadows, Transitions } from '../../global/styles'
 import { ShareIcon } from '../Transactions/Icons'
-import { motion } from 'framer-motion'
 import { Link } from '../base/Link'
 
 const formatter = new Intl.NumberFormat('en-us', {
@@ -18,37 +20,51 @@ const formatBalance = (balance: BigNumber | undefined) =>
   formatter.format(parseFloat(formatEther(balance ?? BigNumber.from('0'))))
 
 export type AccountModalProps = {
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+  setShowModal: Dispatch<SetStateAction<boolean>>
 }
 
-export const AccountModal = ({ setShowModal }: AccountModalProps) => {
+export const AccountModal = (props: AccountModalProps) => {
   const { account, chainId } = useEthers()
   const balance = useEtherBalance(account)
-  if (account && chainId) {
-    return (
-      <ModalBackground onClick={() => setShowModal(false)}>
+
+  createEffect(() => {
+    if (!account || !chainId) {
+      props.setShowModal(false)
+    }
+  })
+
+  return (
+    <Show when={account && chainId} fallback={<div />}>
+      <ModalBackground onClick={() => props.setShowModal(false)}>
         <Modal
-          onClick={(e) => e.stopPropagation()}
-          layout
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
+          onEnter={(el, done) => {
+            const a = el.animate([{ opacity: 0 }, { opacity: 1 }], {
+              duration: 600,
+            })
+            a.finished.then(done)
+          }}
+          onExit={(el, done) => {
+            const a = el.animate([{ opacity: 1 }, { opacity: 0 }], {
+              duration: 600,
+            })
+            a.finished.then(done)
+          }}
         >
           <TitleRow>
             Account info
-            <ClosingButton onClick={() => setShowModal(false)}>+</ClosingButton>
+            <ClosingButton onClick={() => props.setShowModal(false)}>+</ClosingButton>
           </TitleRow>
           <AccountInfo>
             <AccountAddress>Address: {account}</AccountAddress>
             <LinkWrapper>
-              <Link href={getExplorerAddressLink(account, chainId)} target="_blank" rel="noopener noreferrer">
+              <Link href={getExplorerAddressLink(account!, chainId!)} target="_blank" rel="noopener noreferrer">
                 Show on etherscan
                 <LinkIconWrapper>
                   <ShareIcon />
                 </LinkIconWrapper>
               </Link>
               {window.isSecureContext && (
-                <Link onClick={() => console.log(navigator.clipboard.writeText(account))}>Copy to clipboard</Link>
+                <Link onClick={() => console.log(navigator.clipboard.writeText(account!))}>Copy to clipboard</Link>
               )}
             </LinkWrapper>
             <BalanceWrapper>ETH: {balance && formatBalance(balance)}</BalanceWrapper>
@@ -58,11 +74,8 @@ export const AccountModal = ({ setShowModal }: AccountModalProps) => {
           </HistoryWrapper>
         </Modal>
       </ModalBackground>
-    )
-  } else {
-    setShowModal(false)
-    return <div />
-  }
+    </Show>
+  )
 }
 
 const LinkWrapper = styled.div`
@@ -125,7 +138,7 @@ const AccountInfo = styled.div`
   background-color: ${Colors.White};
 `
 
-const Modal = styled(motion.div)`
+const Modal = styled(Transition)`
   position: fixed;
   width: 600px;
 
@@ -137,7 +150,7 @@ const Modal = styled(motion.div)`
   z-index: 3;
 `
 
-const ModalBackground = styled(motion.div)`
+const ModalBackground = styled.div`
   top: 0;
   left: 0;
   position: fixed;

@@ -13,7 +13,7 @@ export function connect() {
     }
   }
   const port = chrome.runtime.connect({
-    name: 'usedapp-panel-' + chrome.devtools.inspectedWindow.tabId,
+    name: 'createdapp-panel-' + chrome.devtools.inspectedWindow.tabId,
   })
   return {
     init() {
@@ -26,7 +26,7 @@ export function connect() {
       }
     },
     send(message: any) {
-      port.postMessage({ source: 'usedapp-panel', payload: message })
+      port.postMessage({ source: 'createdapp-panel', payload: message })
     },
   }
 }

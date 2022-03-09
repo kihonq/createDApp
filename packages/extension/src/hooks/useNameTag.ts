@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext } from 'solid-js'
 import { NameTagsContext } from '../providers/nameTags/NameTagsProvider'
 
 export function useNameTags() {

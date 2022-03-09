@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'solid-js'
 import { AccountButton } from '../components/account/AccountButton'
 import { Container, MainContent, Section, SectionRow } from '../components/base/base'
 import { SendEthForm } from '../components/SendEthForm/SendEthForm'

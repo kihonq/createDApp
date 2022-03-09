@@ -1,7 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
+
 import { Colors } from '../../../design'
 import type { Event } from '../../../providers/events/State'
+
 import { EventItem } from '../EventItem/EventItem'
 
 interface Props {
@@ -10,13 +11,11 @@ interface Props {
   onSelect: (event: Event) => void
 }
 
-export const EventListItem = React.memo(function ({ event, selected, onSelect }: Props) {
-  return (
-    <ListItem className={selected ? 'selected' : ''} onClick={() => onSelect(event)}>
-      <EventItem event={event} />
-    </ListItem>
-  )
-})
+export const EventListItem = ({ event, selected, onSelect }: Props) => (
+  <ListItem className={selected ? 'selected' : ''} onClick={() => onSelect(event)}>
+    <EventItem event={event} />
+  </ListItem>
+)
 
 const ListItem = styled.li`
   display: flex;

@@ -1,4 +1,4 @@
-# useDApp DevTools
+# createDApp DevTools
 
 ![Events screen](./screenshots/events.png)
 ![ABIs screen](./screenshots/abis.png)
@@ -6,7 +6,7 @@
 
 ## Features
 
-1. Look at what is happening in useDapp under the hood
+1. Look at what is happening in createDapp under the hood
 2. Explore calls that are parsed into human readable form
 3. Add custom ABIs
 4. Add custom address name tags
@@ -41,12 +41,12 @@ To create new stories create a `.stories.tsx` file in the source code. This file
 
 ## Extension technical details
 
-The extension is a regular React application that can communicate with the useDApp framework. Because of how browser extensions work this communication is not exactly straightforward.
+The extension is a regular React application that can communicate with the createDApp framework. Because of how browser extensions work this communication is not exactly straightforward.
 
 Below is an overview of the scripts involved in communication:
 
 ```
-@usedapp/core (via src/providers/devtools.ts)
+@createdapp/core (via src/providers/devtools.ts)
     ⇅
 __USEDAPP_DEVTOOLS_HOOK__ ← static/scripts/devtools.js
     ⇅
@@ -65,12 +65,12 @@ Let's start by exploring `content.js`. This is a content script, which means it 
 
 Moving on to the `__USEDAPP_DEVTOOLS_HOOK__`. It is an object with four properties:
 
-- `useDApp` - boolean value indicating whether useDApp is used on the page
-- `init()` - function that is called by the useDApp framework. It sets the `useDApp` property to `true` as well as sends a special message to `background.js` (through `content.js`) that changes the extension icon to a colorful one and updates the popup to say that useDApp was detected
+- `createDApp` - boolean value indicating whether createDApp is used on the page
+- `init()` - function that is called by the createDApp framework. It sets the `createDApp` property to `true` as well as sends a special message to `background.js` (through `content.js`) that changes the extension icon to a colorful one and updates the popup to say that createDApp was detected
 - `send(message)` - sends a message to devtools through `content.js` and `background.js`. Every message is timestamped.
 - `listen(cb)` - adds a listener to messages coming from devtools. Returns an unsubscribe callback
 
-At this point we can take a look at `devtools.js`. This script is run every time the devtools window is opened. The purpose of this script is to create the devtools panel if useDApp is present on the page. In order to detect useDApp it polls the `__USEDAPP_DEVTOOLS_HOOK__.useDApp` property. When the value becomes `true` the panel is created. This script does not communicate with any other part of the extension in any way.
+At this point we can take a look at `devtools.js`. This script is run every time the devtools window is opened. The purpose of this script is to create the devtools panel if createDApp is present on the page. In order to detect createDApp it polls the `__USEDAPP_DEVTOOLS_HOOK__.createDApp` property. When the value becomes `true` the panel is created. This script does not communicate with any other part of the extension in any way.
 
 The panel is created with the `static/index.html` document. This document requires the `scripts/panel.bundle.js` script which is bundled using webpack. Source of this script lives in the `src` directory. In `src/connect.ts` the panel establishes communication with the page by opening a port (connection) to the runtime (`background.js`), similarly to the content script.
 

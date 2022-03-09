@@ -1,5 +1,5 @@
 const port = chrome.runtime.connect({
-  name: 'usedapp-content',
+  name: 'createdapp-content',
 })
 
 port.onMessage.addListener(receiveMessage)
@@ -13,19 +13,19 @@ function onDisconnect() {
 const messages = []
 
 function sendMessage(e) {
-  if (e.data && e.data.source === 'usedapp-hook-init') {
+  if (e.data && e.data.source === 'createdapp-hook-init') {
     chrome.runtime.sendMessage(e.data)
-  } else if (e.data && e.data.source === 'usedapp-hook') {
+  } else if (e.data && e.data.source === 'createdapp-hook') {
     messages.push(e.data)
     port.postMessage(e.data)
   }
 }
 
 function receiveMessage(message) {
-  if (message.source === 'usedapp-panel') {
+  if (message.source === 'createdapp-panel') {
     if (message.payload === 'replay') {
       port.postMessage({
-        source: 'usedapp-content',
+        source: 'createdapp-content',
         payload: {
           type: 'REPLAY',
           messages,
@@ -36,7 +36,7 @@ function receiveMessage(message) {
 
     window.postMessage(
       {
-        source: 'usedapp-content',
+        source: 'createdapp-content',
         payload: message,
       },
       '*'
@@ -59,25 +59,25 @@ function installHook() {
   }
 
   const hook = {
-    useDApp: false,
+    createDApp: false,
     init() {
-      this.useDApp = true
+      this.createDApp = true
       window.postMessage({
-        source: 'usedapp-hook-init',
+        source: 'createdapp-hook-init',
         useDAppDetected: true,
       })
       this.send({ type: 'INIT' })
     },
     send(message) {
       window.postMessage({
-        source: 'usedapp-hook',
+        source: 'createdapp-hook',
         timestamp: Date.now(),
         payload: message,
       })
     },
     listen(fn) {
       function onMessage(e) {
-        if (e.data && e.data.source === 'usedapp-content') {
+        if (e.data && e.data.source === 'createdapp-content') {
           fn(e.data.payload)
         }
       }

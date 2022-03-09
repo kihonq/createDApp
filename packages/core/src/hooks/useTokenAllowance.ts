@@ -1,6 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber'
+
 import { ERC20Interface } from '../constants'
 import { Falsy } from '../model/types'
+
 import { useContractCall } from './useContractCall'
 
 export function useTokenAllowance(

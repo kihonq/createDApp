@@ -1,7 +1,6 @@
 import { MockProvider } from '@ethereum-waffle/provider'
 import { renderHook } from '@testing-library/react-hooks'
-import { BlockNumberProvider, ChainStateProvider, NetworkProvider, NetworkActivator } from '@usedapp/core'
-import React from 'react'
+import { BlockNumberProvider, ChainStateProvider, NetworkProvider, NetworkActivator } from '@createdapp/core'
 import { deployMulticall, getWaitUtils, IdentityWrapper, mineBlock } from './utils'
 
 export interface renderWeb3HookOptions<Tprops> {

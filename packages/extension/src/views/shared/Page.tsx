@@ -1,11 +1,12 @@
-import React, { ReactNode } from 'react'
-import styled from 'styled-components'
+import type { JSXElement } from 'solid-js'
+import { styled } from 'solid-styled-components'
+
 import { Header } from './Header'
 
 interface Props {
   name: string
   onNavigate: (page: string) => void
-  children: ReactNode
+  children: JSXElement
 }
 
 export function Page({ name, onNavigate, children }: Props) {

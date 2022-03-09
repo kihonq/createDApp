@@ -1,7 +1,8 @@
-import { useChainMeta } from '../../src/hooks/useChainMeta'
-import { renderHook } from '@testing-library/react-hooks'
-import { Arbitrum, Mainnet } from '../../src'
 import { expect } from 'chai'
+import { renderHook } from '@testing-library/react-hooks'
+
+import { useChainMeta } from '../../src/hooks/useChainMeta'
+import { Arbitrum, Mainnet } from '../../src/model/chain'
 
 describe('useChainMeta', () => {
   it('works for Mainnet', async () => {

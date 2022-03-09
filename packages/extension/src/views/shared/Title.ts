@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
 
 export const Title = styled.p`
   margin: 0 0 15px 0;

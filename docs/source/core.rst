@@ -18,7 +18,7 @@ Provides basic services for a DApp. It combines the following components: ``<Con
 
 .. code-block:: jsx
 
-  import { Mainnet, DAppProvider } from '@usedapp/core'
+  import { Mainnet, DAppProvider } from '@createdapp/core'
 
   const config = {
     readOnlyChainId: Mainnet.chainId,
@@ -363,15 +363,15 @@ It stores a single value but returns after debounced time unless a new value is 
 
 **Returns**
 
-- ``T`` - debounced value
+- ``Accessor<T>`` - debounced value
 
 **Example**
 
 .. code-block:: javascript
 
-  const [someValue, setValue] = useState(...)
+  const [someValue, setValue] = createSignal(...)
   const debouncedValue = useDebounce(value, 1000)
-
+  debouncedValue()
 
 useDebouncePair
 ===============
@@ -395,7 +395,7 @@ This function is used for debouncing multicall until enough calls are aggregated
 
 **Returns**
 
-- ``[T, U]`` - debounced values
+- ``Accessor<[T, U]>`` - debounced values
 
 useEtherBalance
 ===============
@@ -432,7 +432,7 @@ Returns connection state and functions that allow to manipulate the state.
 
     - ``account: null | string`` - current user account (or *null* if not connected or connected in read-only mode)
     - ``chainId: ChainId`` - current chainId (or *undefined* if not connected)
-    - ``library: Web3Provider`` - an instance of ethers `Web3Provider <https://github.com/EthWorks/useDapp/tree/master/packages/example>`_ (or *undefined* if not connected)
+    - ``library: Web3Provider`` - an instance of ethers `Web3Provider <https://github.com/kihonq/createDapp/tree/master/packages/example>`_ (or *undefined* if not connected)
     - ``active: boolean`` - returns if provider is connected (read or write mode)
     - ``activateBrowserWallet()`` - function that will initiate connection to browser web3 extension (e.g. Metamask)
     - ``async activate(connector: AbstractConnector, onError?: (error: Error) => void, throwErrors?: boolean)`` - function that allows to connect to a wallet
@@ -449,7 +449,7 @@ Returns gas price of current network.
 
 **Returns**
 
-- ``gasPrice: BigNumber | undefined`` - gas price of current network. Undefined if not initialised
+- ``Accessor<BigNumber | undefined>`` - gas price of current network. Undefined if not initialised
 
 useMulticallAddress
 ===================
@@ -614,6 +614,7 @@ Fetches ERC20 token list under a given address and filters them by chain id. Opt
 
 **Returns**
 
+``Accessor`` of this:
 - ``name: string`` - token list name
 - ``logoURI: string`` - URI to get token list logo from
 - ``tokens: TokenInfo[]`` - list of ``TokenInfo`` objects
@@ -624,7 +625,7 @@ If an error occurs ``undefined`` is returned.
 
 .. code-block:: javascript
 
-  const { name, logoURI, tokens } = useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI) || {}
+  const { name, logoURI, tokens } = (useTokenList(UNISWAP_DEFAULT_TOKEN_LIST_URI))() || {}
 
   const httpSource = logoURI && logoURI.startsWith('ipfs') ? logoURI.replace('ipfs://', 'https://ipfs.io/ipfs/') : logoURI
   return (
@@ -742,7 +743,7 @@ List of intended supported chain configs. If a user tries to connect to an unsup
 ***Default value:***
 ``[Localhost, Hardhat, Mainnet, Ropsten, Rinkeby, Goerli, Kovan...]``
 
-Check the full list in https://github.com/EthWorks/useDApp/tree/master/packages/core/src/model/chain
+Check the full list in https://github.com/kihonq/createDApp/tree/master/packages/core/src/model/chain
 
 **pollingInterval**
 Polling interval for a new block.
@@ -960,7 +961,7 @@ getExplorerAddressLink (deprecated)
 ====================================
 
 > can call with Chain directly, ex:
-> import { Mainnet } from '@usedapp/core'
+> import { Mainnet } from '@createdapp/core'
 > Mainnet.getExplorerAddressLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987')
 > // https://etherscan.io/address/0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987
 
@@ -993,7 +994,7 @@ getExplorerTransactionLink (deprecated)
 ==========================================
 
 > can call with Chain directly, ex:
-> import { Mainnet } from '@usedapp/core'
+> import { Mainnet } from '@createdapp/core'
 > Mainnet.getExplorerTransactionLink('0xC7095A52C403ee3625Ce8B9ae8e2e46083b81987')
 > // https://etherscan.io/tx/0x5d53558791c9346d644d077354420f9a93600acf54eb6a279f12b43025392c3a
 
@@ -1024,7 +1025,7 @@ getChainName (deprecated)
 ================================
 
 > can call with Chain directly, ex:
-> import { Mainnet } from '@usedapp/core'
+> import { Mainnet } from '@createdapp/core'
 > Mainnet.chainName
 > // Mainnet
 
@@ -1052,7 +1053,7 @@ isTestChain (deprecated)
 =========================
 
 > can call with Chain directly, ex:
-> import { Mainnet } from '@usedapp/core'
+> import { Mainnet } from '@createdapp/core'
 > Mainnet.isTestChain
 > // false
 > Ropsten.isTestChain

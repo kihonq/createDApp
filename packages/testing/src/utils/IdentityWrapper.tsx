@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react'
+import { JSXElement } from "solid-js"
 
-export type ChildrenProps = { children?: ReactNode }
+export type ChildrenProps = { children?: JSXElement }
 
 export const IdentityWrapper = ({ children }: ChildrenProps) => <>{children}</>

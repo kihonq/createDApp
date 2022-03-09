@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react'
+import { createEffect, createSignal } from 'solid-js'
 import { TokenInfo } from '@uniswap/token-lists'
+
 import { ChainId } from '../constants'
+
 import { useEthers } from './useEthers'
 
 interface TokenList {
@@ -9,13 +11,13 @@ interface TokenList {
   tokens: TokenInfo[]
 }
 
-export function useTokenList(tokenListURI: string, overrideChainId?: ChainId, tags?: string[]) {
+export const useTokenList = (tokenListURI: string, overrideChainId?: ChainId, tags?: string[]) => {
   const { chainId: providerChainId } = useEthers()
-  const [tokenList, setTokenList] = useState<TokenList>()
+  const [tokenList, setTokenList] = createSignal<TokenList>()
 
   const chainId = overrideChainId || providerChainId
 
-  useEffect(() => {
+  createEffect(() => {
     fetch(tokenListURI)
       .then(async (response) => {
         if (response.ok) {
@@ -40,7 +42,7 @@ export function useTokenList(tokenListURI: string, overrideChainId?: ChainId, ta
         console.log(err)
         setTokenList(undefined)
       })
-  }, [tokenListURI, chainId])
+  })
 
   return tokenList
 }

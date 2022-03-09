@@ -1,5 +1,4 @@
-import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
 import { Colors } from '../../design'
 
 interface Props {

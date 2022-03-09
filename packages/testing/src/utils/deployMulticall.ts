@@ -1,5 +1,5 @@
 import { deployContract, MockProvider } from 'ethereum-waffle'
-import { MultiCall } from '@usedapp/core'
+import { MultiCall } from '@createdapp/core'
 
 export const deployMulticall = async (provider: MockProvider, chainId: number) => {
   const multicall = await deployContract((await provider.getWallets())[0], {

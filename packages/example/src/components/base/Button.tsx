@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
+
 import { BorderRad, Colors, Fonts, Transitions } from '../../global/styles'
 
 export const Button = styled.button`

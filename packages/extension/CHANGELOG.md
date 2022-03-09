@@ -1,4 +1,4 @@
-# @usedapp/extension
+# @createdapp/extension
 
 ## 0.3.0
 

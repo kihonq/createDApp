@@ -1,4 +1,4 @@
-# @usedapp/core
+# @createdapp/core
 
 ## 0.11.0
 

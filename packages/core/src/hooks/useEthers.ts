@@ -1,8 +1,9 @@
-import { useCallback } from 'react'
 import { JsonRpcProvider } from '@ethersproject/providers'
+import { EventEmitter } from 'events'
+
 import { ChainId } from '../constants'
 import { useInjectedNetwork, useNetwork } from '../providers'
-import { EventEmitter } from 'events'
+
 import { useLocalStorage } from './useLocalStorage'
 
 type SupportedProviders =
@@ -23,7 +24,7 @@ export type Web3Ethers = {
   activateBrowserWallet: () => void
 }
 
-export function useEthers(): Web3Ethers {
+export const useEthers = (): Web3Ethers => {
   const {
     network: { provider, chainId, accounts, errors },
     deactivate,
@@ -58,14 +59,14 @@ export function useEthers(): Web3Ethers {
     error: errors[errors.length - 1],
   }
 
-  const activateBrowserWallet = useCallback(async () => {
+  const activateBrowserWallet = async () => {
     if (!injectedProvider) {
       return
     }
     await connect()
     await result.activate(injectedProvider)
     setShouldConnectMetamask(true)
-  }, [injectedProvider])
+  }
 
   return { ...result, activateBrowserWallet }
 }

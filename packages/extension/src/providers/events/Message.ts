@@ -75,13 +75,13 @@ type Payload =
   | GenericErrorPayload
 
 export interface HookMessage<T> {
-  source: 'usedapp-hook'
+  source: 'createdapp-hook'
   timestamp: number
   payload: T
 }
 
 export interface ReplayMessage {
-  source: 'usedapp-content'
+  source: 'createdapp-content'
   payload: {
     type: 'REPLAY'
     messages: HookMessage<Payload>[]

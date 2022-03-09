@@ -11,7 +11,7 @@ To connect to the network in read-only mode, provide ``readOnlyChainId`` and ``r
 See example configuration below:
 
 .. code-block:: javascript
-  import { Mainnet } from '@usedapp/core'
+  import { Mainnet } from '@createdapp/core'
 
   const config = {
     readOnlyChainId: Mainnet.chainID,
@@ -71,10 +71,10 @@ Example below demonstrates how to manage and use connection.
 Application allow to see the balance of Ethereum 2.0 staking contracts in read-only mode.
 When wallet is connected additionally it shows user's account along with it's balance.
 
-Example is available `here <https://example.usedapp.io/balance>`_.
+Example is available `here <https://example.createdapp.io/balance>`_.
 
 .. code-block:: javascript
-  import { Mainnet } from '@usedapp/core'
+  import { Mainnet } from '@createdapp/core'
 
   const config = {
     readOnlyChainId: Mainnet.chainId,
@@ -183,7 +183,7 @@ Another example is useTokenAllowance hook. Instead of balanceOf, we use allowanc
 The *useCall* hook will take care of updating the balance of new blocks.
 The results are deferred so that the hook does not update too frequently.
 
-In our custom hooks we can use any standard react hooks, custom react hooks and useDapp hooks.
+In our custom hooks we can use any standard react hooks, custom react hooks and createDapp hooks.
 Rules of hooks apply.
 
 Documentation for hooks is available :ref:`here <core:Hooks>`.
@@ -260,8 +260,8 @@ Then we can check if our result is correct. ``result.current`` is a value return
 
   import { MockProvider } from '@ethereum-waffle/provider'
   import { Contract } from '@ethersproject/contracts'
-  import { useTokenAllowance, ERC20Mock } from '@usedapp/core'
-  import { renderWeb3Hook } from '@usedapp/testing'
+  import { useTokenAllowance, ERC20Mock } from '@createdapp/core'
+  import { renderWeb3Hook } from '@createdapp/testing'
   import chai, { expect } from 'chai'
   import { solidity, deployContract } from 'ethereum-waffle'
   import { utils } from 'ethers'
@@ -301,9 +301,9 @@ Transactions
 Sending transaction
 ===================
 
-Example is available `here <https://example.usedapp.io/send>`_.
+Example is available `here <https://example.createdapp.io/send>`_.
 
-Sending transactions is really simple with useDApp. All we need to send a simple transaction,
+Sending transactions is really simple with createDApp. All we need to send a simple transaction,
 is to use :ref:`useSendTransaction` hook, which returns a ``sendTransaction`` function and ``state`` object.
 
 **Example**

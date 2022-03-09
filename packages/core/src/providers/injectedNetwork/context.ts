@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext } from 'solid-js'
 import { Web3Provider } from '@ethersproject/providers'
 
 export const InjectedNetworkContext = createContext<{

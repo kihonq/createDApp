@@ -1,10 +1,10 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyles } from 'solid-styled-components'
 import HelveticaNeue from '../assets/fonts/HelveticaNeue.woff2'
 import HelveticaNeueBold from '../assets/fonts/HelveticaNeueBold.woff2'
 import HelveticaNeueMedium from '../assets/fonts/HelveticaNeueMedium.woff2'
 import { Colors, Fonts } from './styles'
 
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyles`
   * {
     box-sizing: border-box;
     scrollbar-width: none;

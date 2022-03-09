@@ -1,8 +1,10 @@
-import { MultiCallABI } from '../constants'
-import { useMulticallAddress } from './useMulticallAddress'
-import { Falsy } from '../model/types'
-import { useContractCall } from './useContractCall'
 import { BigNumber } from '@ethersproject/bignumber'
+
+import { MultiCallABI } from '../constants'
+import { Falsy } from '../model/types'
+
+import { useMulticallAddress } from './useMulticallAddress'
+import { useContractCall } from './useContractCall'
 
 export function useEtherBalance(address: string | Falsy): BigNumber | undefined {
   const multicallAddress = useMulticallAddress()

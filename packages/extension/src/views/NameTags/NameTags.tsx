@@ -1,25 +1,27 @@
-import React, { FormEvent, useState, useMemo } from 'react'
+import { createSignal, createMemo, For } from 'solid-js'
+import { styled } from 'solid-styled-components'
+import { getAddress, isAddress } from 'ethers/lib/utils'
+
 import { useNameTags } from '../../hooks'
-import { Page, Text, Title } from '../shared'
-import { isAddress, getAddress } from '@ethersproject/address'
-import { SubmitButton } from '../shared/SubmitButton'
-import styled from 'styled-components'
 import { Colors, Font } from '../../design'
+
+import { Page, Text, Title } from '../shared'
+import { SubmitButton } from '../shared/SubmitButton'
 
 interface Props {
   onNavigate: (page: string) => void
 }
 
-export function NameTags({ onNavigate }: Props) {
+export const NameTags = ({ onNavigate }: Props) => {
   const [nameTags, setNameTags] = useNameTags()
-  const [address, setAddress] = useState('')
-  const [name, setName] = useState('')
-  const [error, setError] = useState('')
+  const [address, setAddress] = createSignal('')
+  const [name, setName] = createSignal('')
+  const [error, setError] = createSignal('')
 
-  function onSubmit(e: FormEvent) {
+  function onSubmit(e: Event) {
     e.preventDefault()
 
-    if (!isAddress(address)) {
+    if (!isAddress(address())) {
       setError('Invalid address')
       return
     } else if (!name) {
@@ -27,7 +29,7 @@ export function NameTags({ onNavigate }: Props) {
       return
     }
 
-    setNameTags([...nameTags, { address, name }])
+    setNameTags([...nameTags, { address: address(), name: name() }])
     setError('')
     setAddress('')
     setName('')
@@ -37,15 +39,13 @@ export function NameTags({ onNavigate }: Props) {
     setNameTags(nameTags.filter((x, index) => index !== i))
   }
 
-  const displayed = useMemo(
-    () =>
-      nameTags
-        .map((tag) => ({ ...tag, address: getAddress(tag.address) }))
-        .map((tag, i, array) => ({
-          ...tag,
-          shadowed: array.some((x, j) => j > i && x.address.toLowerCase() === tag.address.toLowerCase()),
-        })),
-    [nameTags]
+  const displayed = createMemo(() =>
+    nameTags
+      .map((tag) => ({ ...tag, address: getAddress(tag.address) }))
+      .map((tag, i, array) => ({
+        ...tag,
+        shadowed: array.some((x, j) => j > i && x.address.toLowerCase() === tag.address.toLowerCase()),
+      }))
   )
 
   return (
@@ -58,24 +58,28 @@ export function NameTags({ onNavigate }: Props) {
           automatically (e.g. connected accounts or multicall contracts). Those can be changed at any point.
         </Text>
         <Form onSubmit={onSubmit}>
-          <AddressInput value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address 0x1234..." />
-          <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name tag" />
+          <AddressInput
+            value={address()}
+            onChange={(e) => setAddress(e.currentTarget.value)}
+            placeholder="Address 0x1234..."
+          />
+          <Input value={name()} onChange={(e) => setName(e.currentTarget.value)} placeholder="Name tag" />
           <SubmitButton type="submit" value="Add" />
         </Form>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {error() && <ErrorMessage>{error()}</ErrorMessage>}
         <Table>
           <tbody>
-            {displayed
-              .map((tag, i) => (
-                <Row key={i}>
+            <For each={displayed().reverse()}>
+              {(tag, i) => (
+                <Row>
                   <AddressCell className={tag.shadowed ? 'shadowed' : ''}>{tag.address}</AddressCell>
                   <NameCell className={tag.shadowed ? 'shadowed' : ''}>{tag.name}</NameCell>
                   <Cell>
-                    <Remove onClick={() => onRemove(i)}>Remove</Remove>
+                    <Remove onClick={() => onRemove(i())}>Remove</Remove>
                   </Cell>
                 </Row>
-              ))
-              .reverse()}
+              )}
+            </For>
           </tbody>
         </Table>
       </Wrapper>

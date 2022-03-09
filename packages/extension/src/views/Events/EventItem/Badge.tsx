@@ -1,5 +1,4 @@
-import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
 import { Colors } from '../../../design'
 import type { Event } from '../../../providers/events/State'
 import { formatInteger } from './formatInteger'
@@ -9,7 +8,7 @@ interface Props {
   event: Event
 }
 
-export function Badge({ event }: Props) {
+export const Badge = ({ event }: Props) => {
   if (event.type === 'BLOCK_FOUND') {
     return <Bold>{formatInteger(event.blockNumber)}</Bold>
   } else if (event.type === 'NETWORK_CONNECTED') {
@@ -63,7 +62,7 @@ const Removed = styled.div`
   font-weight: bold;
   margin-right: 8px;
   color: ${Colors.Removed};
-  ${Added} + & {
+  ${Added.className} + & {
     margin-left: -4px;
   }
 `

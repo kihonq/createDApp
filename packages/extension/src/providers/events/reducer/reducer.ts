@@ -32,7 +32,7 @@ export const INITIAL_STATE: State = {
 }
 
 export function reducer(state: State, message: Message) {
-  if (message.source === 'usedapp-content') {
+  if (message.source === 'createdapp-content') {
     if (message.payload.type === 'REPLAY') {
       return replay(state, message)
     } else {

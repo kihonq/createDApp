@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { useEthers, shortenAddress, useLookupAddress } from '@usedapp/core'
+import { createEffect, createSignal, Show } from 'solid-js'
+import { styled } from 'solid-styled-components'
+import { useEthers, shortenAddress, useLookupAddress } from '@createdapp/core'
+
 import { Button } from '../base/Button'
 import { Colors } from '../../global/styles'
-import styled from 'styled-components'
 
 import { AccountModal } from './AccountModal'
 
 export const AccountButton = () => {
   const { account, deactivate, activateBrowserWallet } = useEthers()
   const ens = useLookupAddress()
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = createSignal(false)
 
-  const [activateError, setActivateError] = useState('')
+  const [activateError, setActivateError] = createSignal('')
   const { error } = useEthers()
-  useEffect(() => {
+
+  createEffect(() => {
     if (error) {
       setActivateError(error.message)
     }
-  }, [error])
+  })
 
   const activate = async () => {
     setActivateError('')
@@ -26,16 +28,16 @@ export const AccountButton = () => {
 
   return (
     <Account>
-      <ErrorWrapper>{activateError}</ErrorWrapper>
-      {showModal && <AccountModal setShowModal={setShowModal} />}
-      {account ? (
-        <>
-          <AccountLabel onClick={() => setShowModal(!showModal)}>{ens ?? shortenAddress(account)}</AccountLabel>
-          <LoginButton onClick={() => deactivate()}>Disconnect</LoginButton>
-        </>
-      ) : (
-        <LoginButton onClick={activate}>Connect</LoginButton>
-      )}
+      <ErrorWrapper>{activateError()}</ErrorWrapper>
+      {showModal() && <AccountModal setShowModal={setShowModal} />}
+      <Show when={account} fallback={<LoginButton onClick={activate}>Connect</LoginButton>}>
+        {(value) => (
+          <>
+            <AccountLabel onClick={() => setShowModal(!showModal)}>{ens ?? shortenAddress(value)}</AccountLabel>
+            <LoginButton onClick={() => deactivate()}>Disconnect</LoginButton>
+          </>
+        )}
+      </Show>
     </Account>
   )
 }

@@ -1,14 +1,16 @@
-import React from 'react'
 import type { BlockFoundEvent } from '../../../providers/events/State'
+
 import { Text } from '../../shared'
+
 import { formatInteger } from '../EventItem/formatInteger'
+
 import { Link, Property, Table } from './components'
 
 interface Props {
   event: BlockFoundEvent
 }
 
-export function BlockFoundPreview({ event }: Props) {
+export const BlockFoundPreview = ({ event }: Props) => {
   const link = getExplorerLink(event.network, event.blockNumber)
 
   return (
@@ -29,7 +31,7 @@ export function BlockFoundPreview({ event }: Props) {
   )
 }
 
-function getExplorerLink(network: string, blockNumber: number) {
+const getExplorerLink = (network: string, blockNumber: number) => {
   switch (network) {
     case 'Mainnet':
       return `https://etherscan.io/block/${blockNumber}`

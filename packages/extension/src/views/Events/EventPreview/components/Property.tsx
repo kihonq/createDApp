@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react'
-import styled from 'styled-components'
+import type { JSXElement } from 'solid-js'
+import { styled } from 'solid-styled-components'
 
 interface PropertyProps {
   name: string
-  children?: ReactNode
+  children?: JSXElement
 }
 
 export function Property({ name, children }: PropertyProps) {

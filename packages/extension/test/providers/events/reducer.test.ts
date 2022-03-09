@@ -665,7 +665,7 @@ function toTimestamp(time: string) {
 
 function makeInitMessage(time: string): HookMessage<InitPayload> {
   return {
-    source: 'usedapp-hook',
+    source: 'createdapp-hook',
     timestamp: toTimestamp(time),
     payload: { type: 'INIT' },
   }
@@ -673,7 +673,7 @@ function makeInitMessage(time: string): HookMessage<InitPayload> {
 
 function makeNetworkChangedMessage(time: string, chainId: number | undefined): Message {
   return {
-    source: 'usedapp-hook',
+    source: 'createdapp-hook',
     timestamp: toTimestamp(time),
     payload: { type: 'NETWORK_CHANGED', chainId },
   }
@@ -681,7 +681,7 @@ function makeNetworkChangedMessage(time: string, chainId: number | undefined): M
 
 function makeBlockNumberChangedMessage(time: string, chainId: number, blockNumber: number): Message {
   return {
-    source: 'usedapp-hook',
+    source: 'createdapp-hook',
     timestamp: toTimestamp(time),
     payload: { type: 'BLOCK_NUMBER_CHANGED', chainId, blockNumber },
   }
@@ -689,7 +689,7 @@ function makeBlockNumberChangedMessage(time: string, chainId: number, blockNumbe
 
 function makeAccountChangedMessage(time: string, address: string | undefined): Message {
   return {
-    source: 'usedapp-hook',
+    source: 'createdapp-hook',
     timestamp: toTimestamp(time),
     payload: { type: 'ACCOUNT_CHANGED', address },
   }
@@ -697,7 +697,7 @@ function makeAccountChangedMessage(time: string, address: string | undefined): M
 
 function makeCallsChangedMessage(time: string, chainId: number, calls: ChainCall[]): Message {
   return {
-    source: 'usedapp-hook',
+    source: 'createdapp-hook',
     timestamp: toTimestamp(time),
     payload: { type: 'CALLS_CHANGED', chainId, calls },
   }
@@ -705,7 +705,7 @@ function makeCallsChangedMessage(time: string, chainId: number, calls: ChainCall
 
 function makeMulticallErrorMessage(time: string, options: Omit<MulticallErrorPayload, 'type'>): Message {
   return {
-    source: 'usedapp-hook',
+    source: 'createdapp-hook',
     timestamp: toTimestamp(time),
     payload: {
       type: 'MULTICALL_ERROR',
@@ -716,7 +716,7 @@ function makeMulticallErrorMessage(time: string, options: Omit<MulticallErrorPay
 
 function makeMulticallSuccessMessage(time: string, options: Omit<MulticallSuccessPayload, 'type'>): Message {
   return {
-    source: 'usedapp-hook',
+    source: 'createdapp-hook',
     timestamp: toTimestamp(time),
     payload: {
       type: 'MULTICALL_SUCCESS',
@@ -727,7 +727,7 @@ function makeMulticallSuccessMessage(time: string, options: Omit<MulticallSucces
 
 function makeGenericErrorMessage(time: string, error: string): Message {
   return {
-    source: 'usedapp-hook',
+    source: 'createdapp-hook',
     timestamp: toTimestamp(time),
     payload: {
       type: 'GENERIC_ERROR',

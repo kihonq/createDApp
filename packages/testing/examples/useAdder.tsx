@@ -1,10 +1,10 @@
+import { createContext, useContext } from 'solid-js'
+
 /*
 An example hook that:
 - can take optional arguments
 - Optionally uses a context with a provider wrapper
 */
-
-import { createContext, useContext } from 'react'
 
 const AdderContext = createContext<{ prov1?: number; prov2?: number } | undefined>(undefined)
 

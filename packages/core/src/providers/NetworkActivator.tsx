@@ -1,27 +1,29 @@
-import { useEffect, useState } from 'react'
-import { useEthers, useLocalStorage } from '../hooks'
-import { useConfig } from './config'
+import { createEffect, createSignal } from 'solid-js'
 import { JsonRpcProvider } from '@ethersproject/providers'
+
+import { useEthers, useLocalStorage } from '../hooks'
+
+import { useConfig } from './config'
 import { useInjectedNetwork } from './injectedNetwork'
 
 interface NetworkActivatorProps {
   providerOverride?: JsonRpcProvider
 }
 
-export function NetworkActivator({ providerOverride }: NetworkActivatorProps) {
+export const NetworkActivator = ({ providerOverride }: NetworkActivatorProps) => {
   const { activate, activateBrowserWallet, chainId: connectedChainId } = useEthers()
   const { readOnlyChainId, readOnlyUrls, autoConnect, pollingInterval } = useConfig()
   const injectedProvider = useInjectedNetwork()
   const [shouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
-  const [readonlyConnected, setReadonlyConnected] = useState(false)
+  const [readonlyConnected, setReadonlyConnected] = createSignal(false)
 
-  useEffect(() => {
+  createEffect(() => {
     if (providerOverride) {
       activate(providerOverride)
     }
-  }, [providerOverride])
+  })
 
-  useEffect(() => {
+  createEffect(() => {
     if (readOnlyChainId && readOnlyUrls && !providerOverride) {
       if (readOnlyUrls[readOnlyChainId] && connectedChainId !== readOnlyChainId) {
         const provider = new JsonRpcProvider(readOnlyUrls[readOnlyChainId])
@@ -29,16 +31,16 @@ export function NetworkActivator({ providerOverride }: NetworkActivatorProps) {
         activate(provider).then(() => setReadonlyConnected(true))
       }
     }
-  }, [readOnlyChainId, readOnlyUrls])
+  })
 
-  useEffect(() => {
-    shouldConnectMetamask &&
+  createEffect(() => {
+    shouldConnectMetamask() &&
       autoConnect &&
       injectedProvider &&
       !providerOverride &&
-      readonlyConnected &&
+      readonlyConnected() &&
       activateBrowserWallet()
-  }, [readonlyConnected])
+  })
 
   return null
 }

@@ -1,4 +1,4 @@
-import { useSendTransaction } from '@usedapp/core'
+import { useSendTransaction } from '@createdapp/core'
 import { expect } from 'chai'
 import { MockProvider } from 'ethereum-waffle'
 import { BigNumber, utils } from 'ethers'

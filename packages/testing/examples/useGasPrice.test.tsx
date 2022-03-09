@@ -1,4 +1,4 @@
-import { useGasPrice } from '@usedapp/core'
+import { useGasPrice } from '@createdapp/core'
 import chai, { expect } from 'chai'
 import { solidity } from 'ethereum-waffle'
 import { renderWeb3Hook } from '../src'

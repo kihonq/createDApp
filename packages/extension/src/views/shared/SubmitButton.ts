@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
 import { Colors } from '../../design'
 
 export const SubmitButton = styled.input`

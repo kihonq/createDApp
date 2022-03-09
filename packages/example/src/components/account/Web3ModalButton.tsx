@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { useEthers, shortenAddress, useLookupAddress } from '@usedapp/core'
-import { Button } from '../base/Button'
-import { Colors } from '../../global/styles'
-import styled from 'styled-components'
+import { createEffect, createSignal, Show } from 'solid-js'
+import { styled } from 'solid-styled-components'
+import { useEthers, shortenAddress, useLookupAddress } from '@createdapp/core'
 import Web3Modal from 'web3modal'
+import WalletConnectProvider from '@walletconnect/web3-provider'
+
+import { Colors } from '../../global/styles'
+
+import { Button } from '../base/Button'
 
 import { AccountModal } from './AccountModal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 
 export const Web3ModalButton = () => {
   const { account, activate, deactivate } = useEthers()
   const ens = useLookupAddress()
-  const [showModal, setShowModal] = useState(false)
-  const [activateError, setActivateError] = useState('')
+  const [showModal, setShowModal] = createSignal(false)
+  const [activateError, setActivateError] = createSignal('')
   const { error } = useEthers()
-  useEffect(() => {
+
+  createEffect(() => {
     if (error) {
       setActivateError(error.message)
     }
-  }, [error])
+  })
 
   const activateProvider = async () => {
     const providerOptions = {
@@ -52,16 +55,18 @@ export const Web3ModalButton = () => {
 
   return (
     <Account>
-      <ErrorWrapper>{activateError}</ErrorWrapper>
-      {showModal && <AccountModal setShowModal={setShowModal} />}
-      {account ? (
-        <>
-          <AccountLabel onClick={() => setShowModal(!showModal)}>{ens ?? shortenAddress(account)}</AccountLabel>
-          <LoginButton onClick={() => deactivate()}>Disconnect</LoginButton>
-        </>
-      ) : (
-        <LoginButton onClick={activateProvider}>Connect</LoginButton>
-      )}
+      <ErrorWrapper>{activateError()}</ErrorWrapper>
+      <Show when={showModal()}>
+        <AccountModal setShowModal={setShowModal} />
+      </Show>
+      <Show when={account} fallback={<LoginButton onClick={activateProvider}>Connect</LoginButton>}>
+        {(value) => (
+          <>
+            <AccountLabel onClick={() => setShowModal(!showModal())}>{ens() ?? shortenAddress(value)}</AccountLabel>
+            <LoginButton onClick={() => deactivate()}>Disconnect</LoginButton>
+          </>
+        )}
+      </Show>
     </Account>
   )
 }

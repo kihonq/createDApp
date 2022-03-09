@@ -1,4 +1,4 @@
-# useDapp
+# createDapp
 
 ### Ethereum 🤝 React 
 Framework for rapid Dapp development.  
@@ -19,8 +19,8 @@ Combines the best practices:
 ## Example
 
 ```tsx
-import { Mainnet } from '@usedapp/core/modal/chain/ethereum'
-import { useEthers, useEtherBalance } from '@usedapp/core'
+import { Mainnet } from '@createdapp/core/modal/chain/ethereum'
+import { useEthers, useEtherBalance } from '@createdapp/core'
 
 const config = {
   readOnlyChainId: Mainnet.chainId,
@@ -55,15 +55,15 @@ export function App() {
 }
 ```
 
-See application [here](https://example.usedapp.io/balance).
+See application [here](https://example.createdapp.io/balance).
 
 
 ## Documentation
-For detailed feature walkthrough checkout [documentation](https://usedapp.readthedocs.io/en/latest/).
+For detailed feature walkthrough checkout [documentation](https://createdapp.readthedocs.io/en/latest/).
 
 ## Contributing
 
-Contributions are always welcome, no matter how large or small. Before contributing, please read the [code of conduct](https://github.com/EthWorks/useDapp/blob/master/CODE_OF_CONDUCT.md) and [contribution policy](https://github.com/EthWorks/useDapp/blob/master/CONTRIBUTION.md).
+Contributions are always welcome, no matter how large or small. Before contributing, please read the [code of conduct](https://github.com/kihonq/createDapp/blob/master/CODE_OF_CONDUCT.md) and [contribution policy](https://github.com/kihonq/createDapp/blob/master/CONTRIBUTION.md).
 
 ### Before you issue pull request:
 
@@ -107,4 +107,4 @@ pip3 install -r docs/requirements.txt
 
 ## License
 
-useDapp is released under the [MIT License](https://opensource.org/licenses/MIT).
+createDapp is released under the [MIT License](https://opensource.org/licenses/MIT).

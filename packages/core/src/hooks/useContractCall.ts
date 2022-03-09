@@ -1,8 +1,10 @@
+import { Accessor, createMemo } from 'solid-js'
 import { Interface } from '@ethersproject/abi'
-import { useMemo } from 'react'
+
 import { Falsy } from '../model/types'
-import { useChainCalls } from './useChainCalls'
 import { RawCall } from '../providers/chainState/callsReducer'
+
+import { useChainCalls } from './useChainCalls'
 
 function warnOnInvalidContractCall(call: ContractCall | Falsy) {
   console.warn(
@@ -34,22 +36,22 @@ export interface ContractCall {
 }
 
 export function useContractCall(call: ContractCall | Falsy): any[] | undefined {
-  return useContractCalls([call])[0]
+  return useContractCalls([call])()[0]
 }
 
-export function useContractCalls(calls: (ContractCall | Falsy)[]): (any[] | undefined)[] {
+export function useContractCalls(calls: (ContractCall | Falsy)[]): Accessor<(any[] | undefined)[]> {
   const results = useChainCalls(calls.map(encodeCallData))
 
-  return useMemo(
-    () =>
-      results.map((result, idx) => {
-        const call = calls[idx]
-        if (result === '0x') {
-          warnOnInvalidContractCall(call)
-          return undefined
-        }
-        return call && result ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined
-      }),
-    [results]
+  const accessor = createMemo(() =>
+    results.map((result, idx) => {
+      const call = calls[idx]
+      if (result === '0x') {
+        warnOnInvalidContractCall(call)
+        return undefined
+      }
+      return call && result ? (call.abi.decodeFunctionResult(call.method, result) as any[]) : undefined
+    })
   )
+
+  return accessor
 }

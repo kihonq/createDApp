@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'solid-js'
+import { styled } from 'solid-styled-components'
 
 export const SpinnerIcon = () => (
   <Svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

@@ -1,6 +1,5 @@
-import React from 'react'
-import type { ReactNode } from 'react'
-import styled from 'styled-components'
+import type { ReactNode } from 'solid-js'
+import { styled } from 'solid-styled-components'
 
 interface TableProps {
   className?: string

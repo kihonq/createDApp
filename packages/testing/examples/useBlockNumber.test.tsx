@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { useBlockNumber } from '@usedapp/core'
+import { useBlockNumber } from '@createdapp/core'
 import { renderWeb3Hook } from '../src'
 
 describe('useBlockNumber', () => {

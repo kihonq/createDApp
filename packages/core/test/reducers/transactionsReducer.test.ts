@@ -1,5 +1,6 @@
-import { TransactionResponse } from '@ethersproject/abstract-provider'
+import type { TransactionResponse } from '@ethersproject/abstract-provider'
 import { expect } from 'chai'
+
 import { StoredTransaction } from '../../src'
 import { transactionReducer } from '../../src/providers/transactions/reducer'
 

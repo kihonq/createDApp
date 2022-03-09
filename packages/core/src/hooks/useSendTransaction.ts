@@ -1,5 +1,7 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { TransactionOptions } from '../../src'
+
+import { TransactionOptions } from '../model'
+
 import { useEthers } from './useEthers'
 import { usePromiseTransaction } from './usePromiseTransaction'
 

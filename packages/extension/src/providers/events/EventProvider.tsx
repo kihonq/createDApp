@@ -1,6 +1,10 @@
-import React, { createContext, ReactNode, useContext, useEffect, useReducer } from 'react'
+import { createContext, JSXElement, useContext, onMount, onCleanup } from 'solid-js'
+
 import { connect } from '../../connect'
+import { useReducer } from '../../hooks'
+
 import { NameTagsContext } from '../nameTags/NameTagsProvider'
+
 import type { Message } from './Message'
 import { INITIAL_STATE, reducer } from './reducer'
 import type { Event } from './State'
@@ -8,18 +12,18 @@ import type { Event } from './State'
 export const EventContext = createContext<Event[]>([])
 
 interface Props {
-  children: ReactNode
+  children: JSXElement
 }
 
-export function EventProvider({ children }: Props) {
+export const EventProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
   const { setNameTags } = useContext(NameTagsContext)
 
   function onMessage(message: Message) {
     dispatch(message)
-    if (message.source === 'usedapp-hook') {
+    if (message.source === 'createdapp-hook') {
       handle(message)
-    } else if (message.source === 'usedapp-content' && message.payload.type === 'REPLAY') {
+    } else if (message.source === 'createdapp-content' && message.payload.type === 'REPLAY') {
       message.payload.messages.forEach(handle)
     }
   }
@@ -42,12 +46,13 @@ export function EventProvider({ children }: Props) {
     })
   }
 
-  useEffect(() => {
+  onMount(() => {
     const connection = connect()
     const stopListening = connection.listen(onMessage)
     connection.init()
-    return stopListening
-  }, [])
+
+    onCleanup(stopListening)
+  })
 
   return <EventContext.Provider value={state.events} children={children} />
 }

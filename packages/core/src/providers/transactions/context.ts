@@ -1,4 +1,5 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext } from 'solid-js'
+
 import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction, StoredTransactions } from './model'
 
 export const TransactionsContext = createContext<{

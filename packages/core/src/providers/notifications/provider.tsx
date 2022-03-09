@@ -1,19 +1,21 @@
-import { ReactNode, useCallback, useEffect, useReducer } from 'react'
-import { useEthers } from '../../hooks'
-import { NotificationsContext } from './context'
-import { AddNotificationPayload, DEFAULT_NOTIFICATIONS, RemoveNotificationPayload } from './model'
-import { notificationReducer } from './reducer'
+import { JSXElement, createEffect } from 'solid-js'
 import { nanoid } from 'nanoid'
 
+import { useEthers, useReducer } from '../../hooks'
+
+import { AddNotificationPayload, DEFAULT_NOTIFICATIONS, RemoveNotificationPayload } from './model'
+import { NotificationsContext } from './context'
+import { notificationReducer } from './reducer'
+
 interface Props {
-  children: ReactNode
+  children: JSXElement
 }
 
-export function NotificationsProvider({ children }: Props) {
+export function NotificationsProvider(props: Props) {
   const [notifications, dispatch] = useReducer(notificationReducer, DEFAULT_NOTIFICATIONS)
   const { chainId, account } = useEthers()
 
-  useEffect(() => {
+  createEffect(() => {
     if (account && chainId) {
       dispatch({
         type: 'ADD_NOTIFICATION',
@@ -26,31 +28,25 @@ export function NotificationsProvider({ children }: Props) {
         },
       })
     }
-  }, [account, chainId])
+  })
 
-  const addNotification = useCallback(
-    ({ notification, chainId }: AddNotificationPayload) => {
-      dispatch({
-        type: 'ADD_NOTIFICATION',
-        chainId,
-        notification: { ...notification, id: nanoid() },
-      })
-    },
-    [dispatch]
-  )
+  const addNotification = ({ notification, chainId }: AddNotificationPayload) => {
+    dispatch({
+      type: 'ADD_NOTIFICATION',
+      chainId,
+      notification: { ...notification, id: nanoid() },
+    })
+  }
 
-  const removeNotification = useCallback(
-    ({ notificationId, chainId }: RemoveNotificationPayload) => {
-      dispatch({
-        type: 'REMOVE_NOTIFICATION',
-        chainId,
-        notificationId,
-      })
-    },
-    [dispatch]
-  )
+  const removeNotification = ({ notificationId, chainId }: RemoveNotificationPayload) => {
+    dispatch({
+      type: 'REMOVE_NOTIFICATION',
+      chainId,
+      notificationId,
+    })
+  }
 
   return (
-    <NotificationsContext.Provider value={{ addNotification, notifications, removeNotification }} children={children} />
+    <NotificationsContext.Provider value={{ addNotification, notifications, removeNotification }} children={props.children} />
   )
 }

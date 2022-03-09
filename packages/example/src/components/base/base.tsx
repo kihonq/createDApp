@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
+
 import { BorderRad, Colors, Gradients, Shadows, Sizes } from '../../global/styles'
 import { Title } from '../../typography/Title'
 
@@ -66,7 +67,7 @@ export const SectionRow = styled.div`
   width: 100%;
   margin-bottom: 24px;
 
-  ${Title} {
+  ${Title.toString()} {
     margin-bottom: 0;
   }
 `

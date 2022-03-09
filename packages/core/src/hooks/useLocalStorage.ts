@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { createEffect, createSignal } from 'solid-js'
 
-function getItem(key: string) {
+const getItem = (key: string) => {
   if (typeof window === 'undefined') {
     return null
   }
@@ -15,7 +15,7 @@ function getItem(key: string) {
   }
 }
 
-function setItem(key: string, value: any) {
+const setItem = (key: string, value: any) => {
   if (value === undefined) {
     window.localStorage.removeItem(key)
   } else {
@@ -25,16 +25,16 @@ function setItem(key: string, value: any) {
   }
 }
 
-export function useLocalStorage(key: string) {
-  const [value, setValue] = useState(() => getItem(key))
+export const useLocalStorage = (key: string) => {
+  const [value, setValue] = createSignal(getItem(key))
 
-  useEffect(() => {
+  createEffect(() => {
     setValue(getItem(key))
-  }, [key])
+  })
 
-  useEffect(() => {
-    setItem(key, value)
-  }, [value, key])
+  createEffect(() => {
+    setItem(key, value())
+  })
 
   return [value, setValue] as const
 }

@@ -1,48 +1,48 @@
-import { ReactNode, useCallback, useEffect, useReducer } from 'react'
-import { useEthers, useLocalStorage } from '../../hooks'
+import { JSXElement, createEffect } from 'solid-js'
+
+import { useEthers, useLocalStorage, useReducer } from '../../hooks'
+
+import { useConfig } from '../config'
 import { useBlockNumber } from '../blockNumber'
 import { useNotificationsContext } from '../notifications/context'
+
 import { TransactionsContext } from './context'
 import { DEFAULT_STORED_TRANSACTIONS, StoredTransaction } from './model'
 import { transactionReducer } from './reducer'
-import { useConfig } from '../config'
 
 interface Props {
-  children: ReactNode
+  children: JSXElement
 }
 
-export function TransactionProvider({ children }: Props) {
+export const TransactionProvider = (props: Props) => {
   const { chainId, library } = useEthers()
   const blockNumber = useBlockNumber()
   const { localStorage } = useConfig()
   const [storage, setStorage] = useLocalStorage(localStorage.transactionPath)
-  const [transactions, dispatch] = useReducer(transactionReducer, storage ?? DEFAULT_STORED_TRANSACTIONS)
+  const [transactions, dispatch] = useReducer(transactionReducer, storage() ?? DEFAULT_STORED_TRANSACTIONS)
   const { addNotification } = useNotificationsContext()
 
-  useEffect(() => {
+  createEffect(() => {
     setStorage(transactions)
-  }, [transactions])
+  })
 
-  const addTransaction = useCallback(
-    (payload: StoredTransaction) => {
-      dispatch({
-        type: 'ADD_TRANSACTION',
-        payload,
-      })
-      addNotification({
-        notification: {
-          type: 'transactionStarted',
-          transaction: payload.transaction,
-          submittedAt: payload.submittedAt,
-          transactionName: payload.transactionName,
-        },
-        chainId: payload.transaction.chainId,
-      })
-    },
-    [dispatch]
-  )
+  const addTransaction = (payload: StoredTransaction) => {
+    dispatch({
+      type: 'ADD_TRANSACTION',
+      payload,
+    })
+    addNotification({
+      notification: {
+        type: 'transactionStarted',
+        transaction: payload.transaction,
+        submittedAt: payload.submittedAt,
+        transactionName: payload.transactionName,
+      },
+      chainId: payload.transaction.chainId,
+    })
+  }
 
-  useEffect(() => {
+  createEffect(() => {
     const updateTransactions = async () => {
       if (!chainId || !library || !blockNumber) {
         return
@@ -90,12 +90,12 @@ export function TransactionProvider({ children }: Props) {
     }
 
     updateTransactions()
-  }, [chainId, library, blockNumber])
+  })
 
-  return <TransactionsContext.Provider value={{ transactions, addTransaction }} children={children} />
+  return <TransactionsContext.Provider value={{ transactions, addTransaction }} children={props.children} />
 }
 
-function shouldCheck(blockNumber: number, tx: StoredTransaction): boolean {
+const shouldCheck = (blockNumber: number, tx: StoredTransaction): boolean => {
   if (tx.receipt) {
     return false
   }

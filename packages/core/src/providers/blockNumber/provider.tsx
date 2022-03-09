@@ -1,27 +1,30 @@
-import { useEffect, useReducer, ReactNode } from 'react'
+import { createEffect, JSXElement, onCleanup } from 'solid-js'
+
+import { useEthers, useDebounce, useReducer } from '../../hooks'
+
 import { BlockNumberContext } from './context'
 import { blockNumberReducer } from './reducer'
-import { useEthers, useDebounce } from '../../hooks'
 
 interface Props {
-  children: ReactNode
+  children: JSXElement
 }
 
-export function BlockNumberProvider({ children }: Props) {
+export const BlockNumberProvider = (props: Props) => {
   const { library, chainId } = useEthers()
   const [state, dispatch] = useReducer(blockNumberReducer, {})
-  useEffect(() => {
+
+  createEffect(() => {
     if (library && chainId !== undefined) {
       const update = (blockNumber: number) => dispatch({ chainId, blockNumber })
       library.on('block', update)
-      return () => {
+      onCleanup(() => {
         library.off('block', update)
-      }
+      })
     }
-  }, [library, chainId])
+  })
 
   const debouncedState = useDebounce(state, 100)
-  const blockNumber = chainId !== undefined ? debouncedState[chainId] : undefined
+  const blockNumber = () => chainId !== undefined ? debouncedState()[chainId] : undefined
 
-  return <BlockNumberContext.Provider value={blockNumber} children={children} />
+  return <BlockNumberContext.Provider value={blockNumber()} children={props.children} />
 }

@@ -1,17 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'solid-styled-components'
+
 import { Colors } from '../../../design'
 import type { Event } from '../../../providers/events/State'
+
 import { Badge } from './Badge'
+import { Latency } from './Latency'
 import { getEventLabel } from './getEventLabel'
 import { getNetworkColor } from './getNetworkColor'
-import { Latency } from './Latency'
 
 interface Props {
   event: Event
 }
 
-export function EventItem({ event }: Props) {
+export const EventItem = ({ event }: Props) => {
   const networkColor = getNetworkColor(event)
   const showIndicator = networkColor && event.type !== 'NETWORK_CONNECTED' && event.type !== 'CALLS_UPDATED'
   return (

@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import { createSignal, Show } from 'solid-js'
+import { styled } from 'solid-styled-components'
+
 import { toHttpPath } from '../../utils'
 import { BorderRad } from '../../global/styles'
 
 export function TokenIcon({ src, alt }: { src: string; alt: string }) {
-  const [isIconError, setIconError] = useState(false)
+  const [isIconError, setIconError] = createSignal(false)
 
   return (
-    <>
-      {isIconError ? (
-        '🤷‍♂️'
-      ) : (
+    <Show
+      when={isIconError()}
+      fallback={
         <Icon
           src={toHttpPath(src)}
           alt={alt}
@@ -18,8 +18,10 @@ export function TokenIcon({ src, alt }: { src: string; alt: string }) {
             setIconError(true)
           }}
         />
-      )}
-    </>
+      }
+    >
+      '🤷‍♂️'
+    </Show>
   )
 }
 

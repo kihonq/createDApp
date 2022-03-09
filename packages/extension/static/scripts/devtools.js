@@ -10,13 +10,13 @@ function detectAndCreate() {
     clearInterval(checkInterval)
     return
   }
-  const code = '!!(window.__USEDAPP_DEVTOOLS_HOOK__.useDApp)'
+  const code = '!!(window.__USEDAPP_DEVTOOLS_HOOK__.createDApp)'
   chrome.devtools.inspectedWindow.eval(code, function (detected) {
     if (!detected || created) {
       return
     }
     clearInterval(checkInterval)
     created = true
-    chrome.devtools.panels.create('useDApp', 'icons/icon.svg', 'index.html')
+    chrome.devtools.panels.create('createDApp', 'icons/icon.svg', 'index.html')
   })
 }

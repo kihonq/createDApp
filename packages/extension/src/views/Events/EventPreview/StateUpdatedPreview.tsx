@@ -1,4 +1,3 @@
-import React from 'react'
 import type { StateUpdatedEvent } from '../../../providers/events/State'
 import { Text, Title } from '../../shared'
 import { CallList } from './components/CallList'
