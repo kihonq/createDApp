@@ -1,5 +1,5 @@
-import React from 'react'
-import type { Story, Meta } from '@storybook/react'
+import type { Story, Meta } from '@storybook/html'
+import type { StoryFnHtmlReturnType } from '@storybook/html/dist/ts3.9/client/preview/types'
 
 import { GlobalStyle } from '../../providers/GlobalStyle'
 import { Abis as AbisComponent } from '../../views/Abis/Abis'
@@ -12,12 +12,14 @@ export default {
   },
 } as Meta
 
-export const Abis: Story = () => (
-  <AbiProvider>
-    <GlobalStyle />
-    <AbisComponent onNavigate={() => undefined} />
-  </AbiProvider>
-)
+export const Abis: Story = () =>
+  (
+    <AbiProvider>
+      <GlobalStyle />
+      <AbisComponent onNavigate={() => undefined} />
+    </AbiProvider>
+  ) as StoryFnHtmlReturnType
+  
 Abis.parameters = {
   controls: { hideNoControlsWarning: true },
 }

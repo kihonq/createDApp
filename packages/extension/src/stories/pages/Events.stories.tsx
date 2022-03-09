@@ -1,5 +1,5 @@
-import React from 'react'
-import type { Story, Meta } from '@storybook/react'
+import type { Story, Meta } from '@storybook/html'
+import type { StoryFnHtmlReturnType } from '@storybook/html/dist/ts3.9/client/preview/types'
 import { Interface } from '@ethersproject/abi'
 
 import { GlobalStyle } from '../../providers/GlobalStyle'
@@ -89,14 +89,16 @@ const events: Event[] = [
   },
 ]
 
-export const Events: Story = () => (
-  <AbiProvider>
-    <EventContext.Provider value={events}>
-      <GlobalStyle />
-      <EventsComponent onNavigate={() => undefined} />
-    </EventContext.Provider>
-  </AbiProvider>
-)
+export const Events: Story = () =>
+  (
+    <AbiProvider>
+      <EventContext.Provider value={events}>
+        <GlobalStyle />
+        <EventsComponent onNavigate={() => undefined} />
+      </EventContext.Provider>
+    </AbiProvider>
+  ) as StoryFnHtmlReturnType
+
 Events.parameters = {
   controls: { hideNoControlsWarning: true },
 }

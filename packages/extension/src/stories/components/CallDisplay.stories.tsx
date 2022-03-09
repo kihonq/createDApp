@@ -1,5 +1,6 @@
-import React, { ComponentProps } from 'react'
-import type { Story, Meta } from '@storybook/react'
+import type { ComponentProps } from 'solid-js'
+import type { Story, Meta } from '@storybook/html'
+import type { StoryFnHtmlReturnType } from '@storybook/html/dist/ts3.9/client/preview/types'
 
 import { CallDisplay } from '../../views/Events/EventPreview/components/CallDisplay'
 import { GlobalStyle } from '../../providers/GlobalStyle'
@@ -8,7 +9,9 @@ import { NameTagsContext } from '../../providers/nameTags/NameTagsProvider'
 
 export default {
   title: 'Components/CallDisplay',
-  component: CallDisplay,
+  parameters: {
+    component: CallDisplay,
+  },
   argTypes: {
     network: NETWORK_ARGTYPE,
   },
@@ -21,18 +24,19 @@ const ADDRESS_1 = '0x1a2b000000000000000000000000000000003c4d'
 const ADDRESS_2 = '0xf420000000000000000000000000000000002137'
 const ADDRESS_3 = '0x5678000000000000000000000000000000009abc'
 
-const Template: Story<ComponentProps<typeof CallDisplay>> = (args) => (
-  <NameTagsContext.Provider
-    value={{
-      nameTags: [],
-      setNameTags: () => undefined,
-      getNameTag: (a) => (a === ADDRESS_3 ? 'Uncle Joe' : undefined),
-    }}
-  >
-    <GlobalStyle />
-    <CallDisplay {...args} />
-  </NameTagsContext.Provider>
-)
+const Template: Story<ComponentProps<typeof CallDisplay>> = (args) =>
+  (
+    <NameTagsContext.Provider
+      value={{
+        nameTags: [],
+        setNameTags: () => undefined,
+        getNameTag: (a) => (a === ADDRESS_3 ? 'Uncle Joe' : undefined),
+      }}
+    >
+      <GlobalStyle />
+      <CallDisplay {...args} />
+    </NameTagsContext.Provider>
+  ) as StoryFnHtmlReturnType
 
 export const SimpleCall = Template.bind({})
 SimpleCall.args = {

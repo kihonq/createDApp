@@ -1,5 +1,5 @@
-import React from 'react'
-import type { Story, Meta } from '@storybook/react'
+import type { Story, Meta } from '@storybook/html'
+import type { StoryFnHtmlReturnType } from '@storybook/html/dist/ts3.9/client/preview/types'
 
 import { GlobalStyle } from '../../../providers/GlobalStyle'
 import { NetworkConnectedPreview } from '../../../views/Events/EventPreview/NetworkConnectedPreview'
@@ -22,16 +22,17 @@ interface Args {
   blockNumber: number
 }
 
-export const NetworkConnected: Story<Args> = (args) => (
-  <>
-    <GlobalStyle />
-    <NetworkConnectedPreview
-      event={{
-        type: 'NETWORK_CONNECTED',
-        time: '+03:10.497',
-        chainId: args.chainId,
-        network: args.network,
-      }}
-    />
-  </>
-)
+export const NetworkConnected: Story<Args> = (args) =>
+  (
+    <>
+      <GlobalStyle />
+      <NetworkConnectedPreview
+        event={{
+          type: 'NETWORK_CONNECTED',
+          time: '+03:10.497',
+          chainId: args.chainId,
+          network: args.network,
+        }}
+      />
+    </>
+  ) as StoryFnHtmlReturnType

@@ -1,5 +1,5 @@
-import React from 'react'
-import type { Story, Meta } from '@storybook/react'
+import type { Story, Meta } from '@storybook/html'
+import type { StoryFnHtmlReturnType } from '@storybook/html/dist/ts3.9/client/preview/types'
 
 import { GlobalStyle } from '../../../providers/GlobalStyle'
 import { BlockFoundPreview } from '../../../views/Events/EventPreview/BlockFoundPreview'
@@ -21,16 +21,17 @@ interface Args {
   blockNumber: number
 }
 
-export const BlockFound: Story<Args> = (args) => (
-  <>
-    <GlobalStyle />
-    <BlockFoundPreview
-      event={{
-        type: 'BLOCK_FOUND',
-        time: '+03:10.497',
-        blockNumber: args.blockNumber,
-        network: args.network,
-      }}
-    />
-  </>
-)
+export const BlockFound: Story<Args> = (args) =>
+  (
+    <>
+      <GlobalStyle />
+      <BlockFoundPreview
+        event={{
+          type: 'BLOCK_FOUND',
+          time: '+03:10.497',
+          blockNumber: args.blockNumber,
+          network: args.network,
+        }}
+      />
+    </>
+  ) as StoryFnHtmlReturnType

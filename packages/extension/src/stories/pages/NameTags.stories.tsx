@@ -1,5 +1,5 @@
-import React from 'react'
-import type { Story, Meta } from '@storybook/react'
+import type { Story, Meta } from '@storybook/html'
+import type { StoryFnHtmlReturnType } from '@storybook/html/dist/ts3.9/client/preview/types'
 
 import { GlobalStyle } from '../../providers/GlobalStyle'
 import { NameTags as NameTagsComponent } from '../../views/NameTags/NameTags'
@@ -17,7 +17,8 @@ export const NameTags: Story = () => (
     <GlobalStyle />
     <NameTagsComponent onNavigate={() => undefined} />
   </NameTagsProvider>
-)
+) as StoryFnHtmlReturnType
+
 NameTags.parameters = {
   controls: { hideNoControlsWarning: true },
 }

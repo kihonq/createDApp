@@ -1,5 +1,5 @@
-import React from 'react'
-import type { Story, Meta } from '@storybook/react'
+import type { Story, Meta } from '@storybook/html'
+import type { StoryFnHtmlReturnType } from '@storybook/html/dist/ts3.9/client/preview/types'
 
 import { EventItem } from '../../views/Events/EventItem/EventItem'
 import type { Event } from '../../providers/events/State'
@@ -120,12 +120,13 @@ function getEvent(network: string, type: Event['type']): Event {
   }
 }
 
-const Template: Story<Args> = (args) => (
-  <>
-    <GlobalStyle />
-    <EventItem event={getEvent(args.network, args.type)} />
-  </>
-)
+const Template: Story<Args> = (args) =>
+  (
+    <>
+      <GlobalStyle />
+      <EventItem event={getEvent(args.network, args.type)} />
+    </>
+  ) as StoryFnHtmlReturnType
 
 export const Init = Template.bind({})
 Init.args = {
