@@ -15,7 +15,7 @@ export function Balance() {
   const { account } = useEthers()
   const userBalance = useEtherBalance(account)
   const stakingBalance = useEtherBalance(STAKING_CONTRACT)
-
+  
   return (
     <MainContent>
       <Container>
@@ -26,10 +26,12 @@ export function Balance() {
           </SectionRow>
           <ContentBlock>
             <Show when={stakingBalance}>
-              <ContentRow>
-                <Label>ETH2 staking contract holds:</Label> <TextInline>{formatEther(stakingBalance)}</TextInline>{' '}
-                <Label>ETH</Label>
-              </ContentRow>
+              {(value) => (
+                <ContentRow>
+                  <Label>ETH2 staking contract holds:</Label> <TextInline>{formatEther(value)}</TextInline>{' '}
+                  <Label>ETH</Label>
+                </ContentRow>
+              )}
             </Show>
             <Show when={account}>
               <ContentRow>
@@ -37,9 +39,11 @@ export function Balance() {
               </ContentRow>
             </Show>
             <Show when={userBalance}>
-              <ContentRow>
-                <Label>Ether balance:</Label> <TextInline>{formatEther(userBalance)}</TextInline> <Label>ETH</Label>
-              </ContentRow>
+              {(value) => (
+                <ContentRow>
+                  <Label>Ether balance:</Label> <TextInline>{formatEther(value)}</TextInline> <Label>ETH</Label>
+                </ContentRow>
+              )}
             </Show>
           </ContentBlock>
         </Section>
