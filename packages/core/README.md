@@ -1,12 +1,12 @@
 # createDapp
 
-### Ethereum 🤝 React 
+### Ethereum 🤝 SolidJS 
 Framework for rapid Dapp development.  
 Simple. Robust. Extendable. Testable.
 
 ## About
 Introduces great features:
-- 🏗️ **React hooks** - Uses React hooks as your primary building ingredient
+- 🏗️ **SolidJS hooks** - Uses SolidJS hooks as your primary building ingredient
 - 🚅 **Auto refresh** - Refreshes on a new block, wallet change or network change
 - 🛒 **Multicall** - Combines multiple blockchain calls into a single multicall
 

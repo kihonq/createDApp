@@ -2,7 +2,6 @@ import { createEffect, createSignal, Show } from 'solid-js'
 import { styled } from 'solid-styled-components'
 import { useEthers, shortenAddress, useLookupAddress } from '@createdapp/core'
 import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 
 import { Colors } from '../../global/styles'
 
@@ -31,13 +30,6 @@ export const Web3ModalButton = () => {
           description: 'Connect with the provider in your Browser',
         },
         package: null,
-      },
-      walletconnect: {
-        package: WalletConnectProvider,
-        options: {
-          bridge: 'https://bridge.walletconnect.org',
-          infuraId: '14a0951f47e646c1b241aa533e150219',
-        },
       },
     }
 

@@ -7,7 +7,7 @@ import { App } from './App'
 const config: Config = {
   readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
-    [Mainnet.chainId]: 'https://mainnet.infura.io/v3/14a0951f47e646c1b241aa533e150219',
+    [Mainnet.chainId]: 'https://mainnet.infura.io/v3/6bac0f7ce1af41b38bc4d0d09bf7dd87',
   },
   multicallVersion: 2 as const,
 }

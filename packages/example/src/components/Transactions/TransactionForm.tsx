@@ -1,15 +1,18 @@
 import { formatEther } from '@ethersproject/units'
 import { TransactionStatus, useEthers, transactionErrored } from '@createdapp/core'
-import React, { ReactElement, useEffect, useState } from 'solid-js'
+import { JSXElement, createEffect, createSignal, Show } from 'solid-js'
 import { styled } from 'solid-styled-components'
+import { BigNumber } from 'ethers'
+
 import { TextBold } from '../../typography/Text'
+import { BorderRad, Colors } from '../../global/styles'
+
 import { ContentBlock } from '../base/base'
 import { Button } from '../base/Button'
-import { BorderRad, Colors } from '../../global/styles'
-import { BigNumber } from 'ethers'
+
 import { SpinnerIcon, CheckIcon, ExclamationIcon } from './Icons'
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { TransitionGroup, Transition } from 'solid-transition-group'
 
 const formatter = new Intl.NumberFormat('en-us', {
   minimumFractionDigits: 4,
@@ -22,16 +25,23 @@ const formatBalance = (balance: BigNumber | undefined) =>
 interface StatusBlockProps {
   color: string
   text: string
-  icon: ReactElement
+  icon: JSXElement
 }
 
 const StatusBlock = ({ color, text, icon }: StatusBlockProps) => (
   <InformationRow
-    layout
-    initial={{ opacity: 0, y: -50 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: 50 }}
-    key={text}
+    onEnter={(el, done) => {
+      const a = el.animate([{ opacity: 0 }, { opacity: 1 }], {
+        duration: 600,
+      })
+      a.finished.then(done)
+    }}
+    onExit={(el, done) => {
+      const a = el.animate([{ opacity: 1 }, { opacity: 0 }], {
+        duration: 600,
+      })
+      a.finished.then(done)
+    }}
   >
     <IconContainer style={{ fill: color }}>{icon}</IconContainer>
     <div style={{ color: color, textAlign: 'center' }}>{text}</div>
@@ -42,49 +52,38 @@ interface StatusAnimationProps {
   transaction: TransactionStatus
 }
 
-export const StatusAnimation = ({ transaction }: StatusAnimationProps) => {
-  const [showTransactionStatus, setShowTransactionStatus] = useState(false)
-  const [timer, setTimer] = useState(
+export const StatusAnimation = (props: StatusAnimationProps) => {
+  const [showTransactionStatus, setShowTransactionStatus] = createSignal(false)
+  const [timer, setTimer] = createSignal(
     setTimeout(() => {
       void 0
     }, 1)
   )
 
-  useEffect(() => {
+  createEffect(() => {
     setShowTransactionStatus(true)
-    clearTimeout(timer)
+    clearTimeout(timer())
 
-    if (transaction.status != 'Mining') setTimer(setTimeout(() => setShowTransactionStatus(false), 5000))
-  }, [transaction])
+    if (props.transaction.status != 'Mining') setTimer(setTimeout(() => setShowTransactionStatus(false), 5000))
+  })
 
   return (
     <AnimationWrapper>
-      <AnimatePresence initial={false} exitBeforeEnter>
-        {showTransactionStatus && transactionErrored(transaction) && (
+      <TransitionGroup>
+        <Show when={showTransactionStatus() && transactionErrored(props.transaction)}>
           <StatusBlock
             color={Colors.Red['400']}
-            text={transaction?.errorMessage || ''}
+            text={props.transaction?.errorMessage || ''}
             icon={<ExclamationIcon />}
-            key={transaction?.chainId + transaction.status}
           />
-        )}
-        {showTransactionStatus && transaction.status === 'Mining' && (
-          <StatusBlock
-            color="black"
-            text="Transaction is being mined"
-            icon={<SpinnerIcon />}
-            key={transaction?.chainId + transaction.status}
-          />
-        )}
-        {showTransactionStatus && transaction.status === 'Success' && (
-          <StatusBlock
-            color="green"
-            text="Transaction successful"
-            icon={<CheckIcon />}
-            key={transaction?.chainId + transaction.status}
-          />
-        )}
-      </AnimatePresence>
+        </Show>
+        <Show when={showTransactionStatus() && props.transaction.status === 'Mining'}>
+          <StatusBlock color="black" text="Transaction is being mined" icon={<SpinnerIcon />} />
+        </Show>
+        <Show when={showTransactionStatus() && props.transaction.status === 'Success'}>
+          <StatusBlock color="green" text="Transaction successful" icon={<CheckIcon />} />
+        </Show>
+      </TransitionGroup>
     </AnimationWrapper>
   )
 }
@@ -97,17 +96,17 @@ interface InputComponentProps {
 
 const InputComponent = ({ ticker, transaction, send }: InputComponentProps) => {
   const { account } = useEthers()
-  const [value, setValue] = useState('0')
-  const [disabled, setDisabled] = useState(false)
+  const [value, setValue] = createSignal('0')
+  const [disabled, setDisabled] = createSignal(false)
 
   const onClick = () => {
     if (Number(value) > 0) {
       setDisabled(true)
-      send(value)
+      send(value())
     }
   }
 
-  useEffect(() => {
+  createEffect(() => {
     if (transaction.status != 'Mining') {
       setDisabled(false)
       setValue('0')
@@ -121,12 +120,12 @@ const InputComponent = ({ ticker, transaction, send }: InputComponentProps) => {
         type="number"
         step="0.01"
         min="0"
-        value={value}
+        value={value()}
         onChange={(e) => setValue(e.currentTarget.value)}
-        disabled={disabled}
+        disabled={disabled()}
       />
       <FormTicker>{ticker}</FormTicker>
-      <SmallButton disabled={!account || disabled} onClick={onClick}>
+      <SmallButton disabled={!account || disabled()} onClick={onClick}>
         Send
       </SmallButton>
     </InputRow>
@@ -251,7 +250,7 @@ const IconContainer = styled.div`
   float: left;
 `
 
-const InformationRow = styled(motion.div)`
+const InformationRow = styled(Transition)`
   height: 60px;
   font-size: 14px;
   display: flex;

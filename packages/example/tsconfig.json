@@ -14,6 +14,10 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "strictNullChecks": true,
-    "preserveSymlinks": true
+    "preserveSymlinks": true,
+    "outDir": "build",
+    "types": [
+      "vite/client"
+    ]
   }
 }

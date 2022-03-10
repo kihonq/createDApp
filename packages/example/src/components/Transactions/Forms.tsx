@@ -1,6 +1,5 @@
 import { Contract } from '@ethersproject/contracts'
 import { utils } from 'ethers'
-import React from 'solid-js'
 import { useContractFunction, useEtherBalance, useEthers, useTokenBalance } from '@createdapp/core'
 
 import { TransactionForm } from './TransactionForm'
@@ -23,7 +22,7 @@ export const DepositEth = () => {
   }
 
   return (
-    <TransactionForm balance={etherBalance} send={depositEther} title="Wrap Ether" ticker="ETH" transaction={state} />
+    <TransactionForm balance={etherBalance} send={depositEther} title="Wrap Ether" ticker="ETH" transaction={state()} />
   )
 }
 
@@ -43,7 +42,7 @@ export const WithdrawEth = () => {
       send={withdrawEther}
       title="Unwrap Ether"
       ticker="WETH"
-      transaction={state}
+      transaction={state()}
     />
   )
 }

@@ -1,5 +1,3 @@
-import React from 'solid-js'
-
 export const ShareIcon = () => (
   <svg viewBox="0 0 10 11" fill="none" color="currentColor">
     <path
@@ -10,15 +8,15 @@ export const ShareIcon = () => (
     <path
       fill="currentColor"
       color="currentColor"
-      fillRule="evenodd"
-      clipRule="evenodd"
+      fill-rule="evenodd"
+      clip-rule="evenodd"
       d="M5.40766 1.26336V0.5L10 0.5L10 5.19992H9.25411V1.26336H5.40766Z"
     />
     <path
       fill="currentColor"
       color="currentColor"
-      fillRule="evenodd"
-      clipRule="evenodd"
+      fill-rule="evenodd"
+      clip-rule="evenodd"
       d="M9.76725 0.749511C9.90926 0.894841 9.90926 1.13047 9.76725 1.2758L3.89336 7.28728C3.75136 7.43261 3.52112 7.43261 3.37912 7.28728C3.23712 7.14195 3.23712 6.90633 3.37912 6.761L9.25301 0.749511C9.39502 0.604182 9.62525 0.604182 9.76725 0.749511Z"
     />
   </svg>

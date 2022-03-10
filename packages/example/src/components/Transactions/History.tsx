@@ -8,7 +8,7 @@ import {
   StoredTransaction,
   shortenTransactionHash,
 } from '@createdapp/core'
-import React, { ReactElement, ReactNode } from 'solid-js'
+import { For, JSXElement, Show } from 'solid-js'
 import { styled } from 'solid-styled-components'
 import { TextBold } from '../../typography/Text'
 import { ContentBlock } from '../base/base'
@@ -23,13 +23,13 @@ import {
   SpinnerIcon,
 } from './Icons'
 import { Colors, Shadows } from '../../global/styles'
-import { AnimatePresence, motion } from 'framer-motion'
+import { Transition, TransitionGroup } from 'solid-transition-group'
 import { formatEther } from '@ethersproject/units'
 import { BigNumber } from 'ethers'
 import { Link } from '../base/Link'
 
 interface TableWrapperProps {
-  children: ReactNode
+  children: JSXElement
   title: string
 }
 
@@ -91,7 +91,7 @@ const TransactionLink = ({ transaction }: TransactionLinkProps) => (
   </>
 )
 
-const notificationContent: { [key in Notification['type']]: { title: string; icon: ReactElement } } = {
+const notificationContent: { [key in Notification['type']]: { title: string; icon: JSXElement } } = {
   transactionFailed: { title: 'Transaction failed', icon: <ExclamationIcon /> },
   transactionStarted: { title: 'Transaction started', icon: <ClockIcon /> },
   transactionSucceed: { title: 'Transaction succeed', icon: <CheckIcon /> },
@@ -99,7 +99,7 @@ const notificationContent: { [key in Notification['type']]: { title: string; ico
 }
 
 interface ListElementProps {
-  icon: ReactElement
+  icon: JSXElement
   title: string | undefined
   transaction?: TransactionResponse
   date: number
@@ -107,7 +107,20 @@ interface ListElementProps {
 
 const ListElement = ({ transaction, icon, title, date }: ListElementProps) => {
   return (
-    <ListElementWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+    <ListElementWrapper
+      onEnter={(el, done) => {
+        const a = el.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 600,
+        })
+        a.finished.then(done)
+      }}
+      onExit={(el, done) => {
+        const a = el.animate([{ opacity: 1 }, { opacity: 0 }], {
+          duration: 600,
+        })
+        a.finished.then(done)
+      }}
+    >
       <ListIconContainer>{icon}</ListIconContainer>
       <ListDetailsWrapper>
         <TextBold>{title}</TextBold>
@@ -136,24 +149,38 @@ export const TransactionsList = () => {
   const { transactions } = useTransactions()
   return (
     <TableWrapper title="Transactions history">
-      <AnimatePresence initial={false}>
-        {transactions.map((transaction) => (
-          <ListElement
-            transaction={transaction.transaction}
-            title={transaction.transactionName}
-            icon={TransactionIcon(transaction)}
-            key={transaction.transaction.hash}
-            date={transaction.submittedAt}
-          />
-        ))}
-      </AnimatePresence>
+      <TransitionGroup>
+        <For each={transactions()}>
+          {(transaction) => (
+            <ListElement
+              transaction={transaction.transaction}
+              title={transaction.transactionName}
+              icon={TransactionIcon(transaction)}
+              date={transaction.submittedAt}
+            />
+          )}
+        </For>
+      </TransitionGroup>
     </TableWrapper>
   )
 }
 
 const NotificationElement = ({ transaction, icon, title }: ListElementProps) => {
   return (
-    <NotificationWrapper layout initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+    <NotificationWrapper
+      onEnter={(el, done) => {
+        const a = el.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 600,
+        })
+        a.finished.then(done)
+      }}
+      onExit={(el, done) => {
+        const a = el.animate([{ opacity: 1 }, { opacity: 0 }], {
+          duration: 600,
+        })
+        a.finished.then(done)
+      }}
+    >
       <NotificationIconContainer>{icon}</NotificationIconContainer>
       <NotificationDetailsWrapper>
         <NotificationText>{title}</NotificationText>
@@ -171,29 +198,31 @@ export const NotificationsList = () => {
   const { notifications } = useNotifications()
   return (
     <NotificationsWrapper>
-      <AnimatePresence initial={false}>
-        {notifications.map((notification) => {
-          if ('transaction' in notification)
-            return (
-              <NotificationElement
-                key={notification.id}
-                icon={notificationContent[notification.type].icon}
-                title={notificationContent[notification.type].title}
-                transaction={notification.transaction}
-                date={Date.now()}
-              />
-            )
-          else
-            return (
-              <NotificationElement
-                key={notification.id}
-                icon={notificationContent[notification.type].icon}
-                title={notificationContent[notification.type].title}
-                date={Date.now()}
-              />
-            )
-        })}
-      </AnimatePresence>
+      <TransitionGroup>
+        <For each={notifications()}>
+          {(notification) => (
+            <Show
+              when={'transaction' in notification}
+              fallback={
+                <NotificationElement
+                  icon={notificationContent[notification.type].icon}
+                  title={notificationContent[notification.type].title}
+                  date={Date.now()}
+                />
+              }
+            >
+              {
+                <NotificationElement
+                  icon={notificationContent[notification.type].icon}
+                  title={notificationContent[notification.type].title}
+                  transaction={'transaction' in notification ? notification.transaction : undefined}
+                  date={Date.now()}
+                />
+              }
+            </Show>
+          )}
+        </For>
+      </TransitionGroup>
     </NotificationsWrapper>
   )
 }
@@ -207,7 +236,7 @@ const TransactionDetails = styled.div`
   font-size: 14px;
 `
 
-const NotificationWrapper = styled(motion.div)`
+const NotificationWrapper = styled(Transition)`
   display: flex;
   align-items: center;
   background-color: ${Colors.White};
@@ -238,7 +267,7 @@ const ListIconContainer = styled.div`
   padding: 14px 16px 14px 12px;
 `
 
-const ListElementWrapper = styled(motion.div)`
+const ListElementWrapper = styled(Transition)`
   display: flex;
   justify-content: space-between;
 `

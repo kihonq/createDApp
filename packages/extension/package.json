@@ -23,8 +23,6 @@
     "@babel/core": "^7.14.0",
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/address": "^5.5.0",
-    "@storybook/addon-essentials": "^6.4.19",
-    "@storybook/addon-links": "^6.4.19",
     "@storybook/html": "^6.4.19",
     "@types/chai": "^4.2.14",
     "@types/chrome": "^0.0.136",

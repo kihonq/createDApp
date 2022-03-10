@@ -1,8 +1,8 @@
 # @createDapp/coingecko
 
-### Ethereum 🤝 React
+### Ethereum 🤝 SolidJS
 
-React hook to get token price from CoinGecko
+SolidJS hook to get token price from CoinGecko
 
 ## Documentation
 

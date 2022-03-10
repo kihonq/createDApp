@@ -39,12 +39,12 @@ Below is a simple example:
     },
   }
 
-  ReactDOM.render(
-    <React.StrictMode>
+  render(
+    () => (
       <DAppProvider config={config}>
         <App />
       </DAppProvider>
-    </React.StrictMode>,
+    ),
     document.getElementById('root')
   )
 

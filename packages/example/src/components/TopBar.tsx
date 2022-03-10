@@ -13,7 +13,7 @@ export function TopBar() {
           <ToMain href="/">
             <span>useDapp</span>
             <ToMainBottom>
-              Ethereum <Handshaking>🤝</Handshaking> React
+              Ethereum <Handshaking>🤝</Handshaking> Solid
             </ToMainBottom>
           </ToMain>
           <HeaderNavLinks>

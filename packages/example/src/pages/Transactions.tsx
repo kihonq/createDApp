@@ -1,4 +1,3 @@
-import React from 'solid-js'
 import { styled } from 'solid-styled-components'
 import { AccountButton } from '../components/account/AccountButton'
 import { Container, MainContent, Section, SectionRow } from '../components/base/base'

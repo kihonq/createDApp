@@ -1,4 +1,3 @@
-import React from 'solid-js'
 import { styled } from 'solid-styled-components'
 import { Container, ContentBlock, MainContent, Section, SectionRow } from '../components/base/base'
 import { TokenList } from '../components/TokenList/TokenList'

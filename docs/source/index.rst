@@ -1,6 +1,6 @@
 .. image:: logo.png
 
-Ethereum 🤝 React
+Ethereum 🤝 SolidJS
 
 createDapp Documentation
 =====================
