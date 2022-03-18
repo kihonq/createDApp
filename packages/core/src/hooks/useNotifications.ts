@@ -13,13 +13,15 @@ function getExpiredNotifications(notifications: Notification[], expirationPeriod
 }
 
 export function useNotifications() {
-  const { chainId, account } = useEthers()
+  const [ethersState] = useEthers()
   const { addNotification, notifications, removeNotification } = useNotificationsContext()
   const {
     notifications: { checkInterval, expirationPeriod },
   } = useConfig()
 
   const chainNotifications = createMemo(() => {
+    const account = ethersState.account
+    const chainId = ethersState.chainId
     if (chainId === undefined || !account) {
       return []
     }
@@ -28,13 +30,13 @@ export function useNotifications() {
   })
 
   useInterval(() => {
-    if (!chainId) {
+    if (!ethersState.chainId) {
       return
     }
 
     const expiredNotification = getExpiredNotifications(chainNotifications(), expirationPeriod)
     for (const notification of expiredNotification) {
-      removeNotification({ notificationId: notification.id, chainId })
+      removeNotification({ notificationId: notification.id, chainId: ethersState.chainId })
     }
   }, checkInterval)
 

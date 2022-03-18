@@ -13,7 +13,7 @@ interface InjectedNetworkProviderProps {
 }
 
 export const InjectedNetworkProvider = (props: InjectedNetworkProviderProps) => {
-  const { reportError } = useNetwork()
+  const [, { reportError }] = useNetwork()
   const { pollingInterval } = useConfig()
   const [injectedProvider, setInjectedProvider] = createSignal<Web3Provider | undefined>()
 
@@ -38,11 +38,14 @@ export const InjectedNetworkProvider = (props: InjectedNetworkProviderProps) => 
 
   return (
     <InjectedNetworkContext.Provider
-      value={{
-        injectedProvider: injectedProvider(),
-        connect,
-      }}
-      children={props.children}
-    />
+      value={[
+        injectedProvider,
+        {
+          connect,
+        },
+      ]}
+    >
+      {props.children}
+    </InjectedNetworkContext.Provider>
   )
 }

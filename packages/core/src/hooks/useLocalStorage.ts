@@ -1,6 +1,6 @@
 import { createEffect, createSignal } from 'solid-js'
 
-const getItem = (key: string) => {
+const getItem = <T = any>(key: string) => {
   if (typeof window === 'undefined') {
     return null
   }
@@ -8,7 +8,7 @@ const getItem = (key: string) => {
   const item = window.localStorage.getItem(key)
   if (item !== null) {
     try {
-      return JSON.parse(item)
+      return JSON.parse(item) as T
     } catch {
       // ignore error
     }
@@ -25,8 +25,8 @@ const setItem = (key: string, value: any) => {
   }
 }
 
-export const useLocalStorage = (key: string) => {
-  const [value, setValue] = createSignal(getItem(key))
+export const useLocalStorage = <T = any>(key: string) => {
+  const [value, setValue] = createSignal(getItem<T>(key))
 
   createEffect(() => {
     setValue(getItem(key))

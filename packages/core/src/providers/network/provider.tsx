@@ -1,5 +1,6 @@
 import { JSXElement, createSignal } from 'solid-js'
 import { JsonRpcProvider, Web3Provider, ExternalProvider } from '@ethersproject/providers'
+import { EventEmitter } from 'events'
 
 import { subscribeToProviderEvents } from '../../helpers/eip1193'
 import { useReducer } from '../../hooks'
@@ -7,7 +8,6 @@ import { useReducer } from '../../hooks'
 import { defaultNetworkState, networksReducer } from './reducer'
 import { NetworkContext } from './context'
 import { Network } from './model'
-import { EventEmitter } from 'events'
 
 interface NetworkProviderProps {
   children: JSXElement
@@ -68,5 +68,9 @@ export function NetworkProvider(props: NetworkProviderProps) {
     }
   }
 
-  return <NetworkContext.Provider value={{ network, update, activate, deactivate, reportError }} children={props.children} />
+  return (
+    <NetworkContext.Provider value={[network, { update, activate, deactivate, reportError }]}>
+      {props.children}
+    </NetworkContext.Provider>
+  )
 }

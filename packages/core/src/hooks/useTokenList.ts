@@ -12,10 +12,10 @@ interface TokenList {
 }
 
 export const useTokenList = (tokenListURI: string, overrideChainId?: ChainId, tags?: string[]) => {
-  const { chainId: providerChainId } = useEthers()
+  const [ethersState] = useEthers()
   const [tokenList, setTokenList] = createSignal<TokenList>()
 
-  const chainId = overrideChainId || providerChainId
+  const chainId = overrideChainId || ethersState.chainId
 
   createEffect(() => {
     fetch(tokenListURI)

@@ -31,12 +31,12 @@ export function useContractFunction<T extends TypedContract, FN extends Contract
   functionName: FN,
   options?: TransactionOptions
 ) {
-  const { library, chainId } = useEthers()
-  const { promiseTransaction, state, resetState } = usePromiseTransaction(chainId, options)
+  const [ethersState] = useEthers()
+  const { promiseTransaction, state, resetState } = usePromiseTransaction(ethersState.chainId, options)
   const [events, setEvents] = createSignal<LogDescription[]>()
 
   const send = async (...args: Params<T, FN>): Promise<void> => {
-    const contractWithSigner = connectContractToSigner(contract, options, library)
+    const contractWithSigner = connectContractToSigner(contract, options, ethersState.library)
     const receipt = await promiseTransaction(contractWithSigner[functionName](...args))
     if (receipt?.logs) {
       const events = receipt.logs.reduce((accumulatedLogs, log) => {

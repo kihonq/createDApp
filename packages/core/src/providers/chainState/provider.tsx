@@ -25,23 +25,26 @@ interface Props {
 export const ChainStateProvider = (props: Props) => {
   const { multicallVersion } = useConfig()
   const multicall = multicallVersion === 1 ? multicall1 : multicall2
-  const { library, chainId } = useEthers()
+  const [ethersState] = useEthers()
   const blockNumber = useBlockNumber()
-  const { reportError } = useNetwork()
+  const [, { reportError }] = useNetwork()
   const [calls, dispatchCalls] = useReducer(callsReducer, [])
   const [state, dispatchState] = useReducer(chainStateReducer, {})
 
-  const [debouncedCalls, debouncedId] = (useDebouncePair(calls, chainId, 50))()
-  const uniqueCalls = debouncedId === chainId ? getUniqueCalls(debouncedCalls) : []
+  const [debouncedCalls, debouncedId] = (useDebouncePair(calls, ethersState.chainId, 50))()
+  const uniqueCalls = debouncedId === ethersState.chainId ? getUniqueCalls(debouncedCalls) : []
   // used for deep equality in hook dependencies
   const uniqueCallsJSON = JSON.stringify(uniqueCalls)
   const multicallAddresses = () => props.multicallAddresses
 
-  const multicallAddress = chainId !== undefined ? multicallAddresses()[chainId] : undefined
+  const multicallAddress = ethersState.chainId !== undefined ? multicallAddresses()[ethersState.chainId] : undefined
 
   useDevtoolsReporting(uniqueCallsJSON, uniqueCalls, blockNumber, multicallAddresses())
 
   createEffect(() => {
+    const library = ethersState.library
+    const chainId = ethersState.chainId
+    
     if (library && blockNumber !== undefined && chainId !== undefined) {
       if (!multicallAddress) {
         console.error(`Missing multicall address for chain id ${chainId}`)
@@ -76,7 +79,7 @@ export const ChainStateProvider = (props: Props) => {
     }
   })
 
-  const value = chainId !== undefined ? state[chainId] : undefined
+  const value = ethersState.chainId !== undefined ? state[ethersState.chainId] : undefined
   const provided = { value, multicallAddress, dispatchCalls }
 
   return <ChainStateContext.Provider value={provided} children={props.children} />

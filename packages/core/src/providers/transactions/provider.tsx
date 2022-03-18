@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const TransactionProvider = (props: Props) => {
-  const { chainId, library } = useEthers()
+  const [ethersState] = useEthers()
   const blockNumber = useBlockNumber()
   const { localStorage } = useConfig()
   const [storage, setStorage] = useLocalStorage(localStorage.transactionPath)
@@ -43,6 +43,9 @@ export const TransactionProvider = (props: Props) => {
   }
 
   createEffect(() => {
+    const library = ethersState.library
+    const chainId = ethersState.chainId
+    
     const updateTransactions = async () => {
       if (!chainId || !library || !blockNumber) {
         return

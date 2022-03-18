@@ -12,35 +12,35 @@ export const useDevtoolsReporting = (
   blockNumber: number | undefined,
   multicallAddresses: { [network: string]: string }
 ) => {
-  const { chainId, account, error } = useEthers()
+  const [ethersState] = useEthers()
 
-  const multicall = chainId !== undefined ? multicallAddresses[chainId] : undefined
+  const multicall = ethersState.chainId !== undefined ? multicallAddresses[ethersState.chainId] : undefined
 
   createEffect(() => {
-    notifyDevtools({ type: 'NETWORK_CHANGED', chainId, multicallAddress: multicall })
+    notifyDevtools({ type: 'NETWORK_CHANGED', chainId: ethersState.chainId, multicallAddress: multicall })
   })
 
   createEffect(() => {
-    notifyDevtools({ type: 'ACCOUNT_CHANGED', address: account ?? undefined })
+    notifyDevtools({ type: 'ACCOUNT_CHANGED', address: ethersState.account ?? undefined })
   })
 
   createEffect((prevUniqueCallsJSON) => {
     if (!uniqueCallsJSON || prevUniqueCallsJSON !== uniqueCallsJSON) {
-      notifyDevtools({ type: 'CALLS_CHANGED', chainId, calls: uniqueCalls })
+      notifyDevtools({ type: 'CALLS_CHANGED', chainId: ethersState.chainId, calls: uniqueCalls })
     }
 
     return uniqueCallsJSON
   }, uniqueCallsJSON)
 
   createEffect(() => {
-    if (chainId !== undefined && blockNumber !== undefined) {
-      notifyDevtools({ type: 'BLOCK_NUMBER_CHANGED', chainId, blockNumber })
+    if (ethersState.chainId !== undefined && blockNumber !== undefined) {
+      notifyDevtools({ type: 'BLOCK_NUMBER_CHANGED', chainId: ethersState.chainId, blockNumber })
     }
   })
 
   createEffect(() => {
-    if (error !== undefined) {
-      notifyDevtools({ type: 'GENERIC_ERROR', error })
+    if (ethersState.error !== undefined) {
+      notifyDevtools({ type: 'GENERIC_ERROR', error: ethersState.error })
     }
   })
 }

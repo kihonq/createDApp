@@ -10,22 +10,22 @@ interface NetworkActivatorProps {
   providerOverride?: JsonRpcProvider
 }
 
-export const NetworkActivator = ({ providerOverride }: NetworkActivatorProps) => {
-  const { activate, activateBrowserWallet, chainId: connectedChainId } = useEthers()
+export const NetworkActivator = (props: NetworkActivatorProps) => {
+  const [ethersState, { activate, activateBrowserWallet }] = useEthers()
   const { readOnlyChainId, readOnlyUrls, autoConnect, pollingInterval } = useConfig()
   const injectedProvider = useInjectedNetwork()
-  const [shouldConnectMetamask] = useLocalStorage('shouldConnectMetamask')
+  const [shouldConnectMetamask] = useLocalStorage<boolean>('shouldConnectMetamask')
   const [readonlyConnected, setReadonlyConnected] = createSignal(false)
 
   createEffect(() => {
-    if (providerOverride) {
-      activate(providerOverride)
+    if (props.providerOverride) {
+      activate(props.providerOverride)
     }
   })
 
   createEffect(() => {
-    if (readOnlyChainId && readOnlyUrls && !providerOverride) {
-      if (readOnlyUrls[readOnlyChainId] && connectedChainId !== readOnlyChainId) {
+    if (readOnlyChainId && readOnlyUrls && !props.providerOverride) {
+      if (readOnlyUrls[readOnlyChainId] && ethersState.chainId !== readOnlyChainId) {
         const provider = new JsonRpcProvider(readOnlyUrls[readOnlyChainId])
         provider.pollingInterval = pollingInterval
         activate(provider).then(() => setReadonlyConnected(true))
@@ -37,7 +37,7 @@ export const NetworkActivator = ({ providerOverride }: NetworkActivatorProps) =>
     shouldConnectMetamask() &&
       autoConnect &&
       injectedProvider &&
-      !providerOverride &&
+      !props.providerOverride &&
       readonlyConnected() &&
       activateBrowserWallet()
   })

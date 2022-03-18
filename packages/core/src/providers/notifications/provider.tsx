@@ -13,9 +13,12 @@ interface Props {
 
 export function NotificationsProvider(props: Props) {
   const [notifications, dispatch] = useReducer(notificationReducer, DEFAULT_NOTIFICATIONS)
-  const { chainId, account } = useEthers()
+  const [ethersState] = useEthers()
 
   createEffect(() => {
+    const account = ethersState.account
+    const chainId = ethersState.chainId
+    
     if (account && chainId) {
       dispatch({
         type: 'ADD_NOTIFICATION',
@@ -47,6 +50,8 @@ export function NotificationsProvider(props: Props) {
   }
 
   return (
-    <NotificationsContext.Provider value={{ addNotification, notifications, removeNotification }} children={props.children} />
+    <NotificationsContext.Provider value={{ addNotification, notifications, removeNotification }}>
+      {props.children}
+    </NotificationsContext.Provider>
   )
 }

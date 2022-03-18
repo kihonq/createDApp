@@ -23,12 +23,14 @@ enum LocalMulticallState {
 export function LocalMulticallProvider(props: LocalMulticallProps) {
   const updateConfig = useUpdateConfig()
   const { multicallAddresses } = useConfig()
-  const { library, chainId } = useEthers()
+    const [ethersState] = useEthers()
   const [localMulticallState, setLocalMulticallState] = createSignal(LocalMulticallState.Unknown)
   const [multicallBlockNumber, setMulticallBlockNumber] = createSignal<number>()
   const blockNumber = useBlockNumber()
 
   createEffect(() => {
+    const library = ethersState.library
+    const chainId = ethersState.chainId
     if (!library || !chainId) {
       setLocalMulticallState(LocalMulticallState.Unknown)
     } else if (!getChainById(chainId)?.isLocalChain) {

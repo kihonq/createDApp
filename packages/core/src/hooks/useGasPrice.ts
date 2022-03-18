@@ -6,12 +6,12 @@ import { useBlockNumber } from '../providers/blockNumber/context'
 import { useEthers } from './useEthers'
 
 export const useGasPrice = () => {
-  const { library } = useEthers()
+  const [ethersState] = useEthers()
   const blockNumber = useBlockNumber()
   const [gasPrice, setGasPrice] = createSignal<BigNumber>()
 
   async function updateGasPrice() {
-    setGasPrice(await library?.getGasPrice())
+    setGasPrice(await ethersState.library?.getGasPrice())
   }
 
   createEffect((prevBlockNumber) => {
